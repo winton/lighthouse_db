@@ -20,6 +20,8 @@ class LighthouseUser < ActiveRecord::Base
   end
 
   def update_from_api!(project_id, page=1, limit=100)
+    puts "Processing page #{page}..." unless Rails.env == "test"
+
     @api_tickets  = Lighthouse.new(self).recently_updated_tickets(project_id, page, limit)
     @tickets_hash = LighthouseTicket.hash_tickets_by_numbers(
       @api_tickets.collect { |t| t[:number] }

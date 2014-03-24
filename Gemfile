@@ -44,8 +44,10 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'excon'
 gem 'faraday', '< 0.9.0'
+gem 'unicorn-rails'
 
 group :development, :test do
   gem "factory_girl"

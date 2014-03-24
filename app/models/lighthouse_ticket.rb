@@ -35,7 +35,7 @@ class LighthouseTicket < ActiveRecord::Base
         body:                   t[:original_body_html],
         lighthouse_id:          t[:creator_id],
         number:                 t[:number],
-        service:                'lh',
+        state:                  t[:state],
         ticket_created_at:      t[:created_at],
         ticket_updated_at:      t[:updated_at],
         title:                  t[:title],

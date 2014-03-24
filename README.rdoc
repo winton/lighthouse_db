@@ -1,28 +1,25 @@
-== README
+##LighthouseDb
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Lighthouse API -> DB
 
-Things you may want to cover:
+###Install
 
-* Ruby version
+    git clone git@github.com:winton/lighthouse_db.git
+    bundle
+    rake db:migrate
+    rails s
 
-* System dependencies
+###Download Lighthouse Data
 
-* Configuration
+[Set up the Lighthouse user](http://127.0.0.1:3000/admin/lighthouse_users/new)
 
-* Database creation
+	rails c
+	LighthouseUser.first.update_from_api!([LIGHTHOUSE PROJECT ID])
 
-* Database initialization
+Subsequent runs will only download newly updated tickets.
 
-* How to run the test suite
+[View Lighthouse tickets](http://127.0.0.1:3000/admin/lighthouse_tickets)
 
-* Services (job queues, cache servers, search engines, etc.)
+###Screenshot
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+http://cl.ly/image/2y0p0w0B0Q2V

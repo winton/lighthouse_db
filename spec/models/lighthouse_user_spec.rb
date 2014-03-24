@@ -18,13 +18,11 @@ describe LighthouseUser do
       LighthouseTicket.all.each do |ticket|
         ticket.body.should    be_a(String)
         ticket.number.should  be_a(Fixnum)
-        ticket.service.should be_a(String)
+        ticket.state.should be_a(String)
         ticket.ticket_created_at.should be_a(Time)
         ticket.ticket_updated_at.should be_a(Time)
         ticket.title.should be_a(String)
         ticket.url.should   be_a(String)
-
-        puts ticket.inspect
 
         assigned ||= ticket.assigned_lighthouse_user.is_a?(LighthouseUser)
         ticket.lighthouse_user.should be_a(LighthouseUser)

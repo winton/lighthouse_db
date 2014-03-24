@@ -1,0 +1,6 @@
+default:
+  lighthouse_id: # Lighthouse user ID
+  namespace:     # Lighthouse project namespace
+  token:         # Lighthouse API token
+
+  id: 1

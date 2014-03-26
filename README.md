@@ -1,5 +1,7 @@
 ##LighthouseDb
 
+[![Code Climate](https://codeclimate.com/repos/533278906956807aae005f2a/badges/6d478f0656290243abfc/gpa.png)](https://codeclimate.com/repos/533278906956807aae005f2a/feed)
+
 Lighthouse API -> DB
 
 ###Install

@@ -14,7 +14,10 @@ Lighthouse API -> DB
 [Set up the Lighthouse user](http://127.0.0.1:3000/admin/lighthouse_users/new)
 
 	rails c
-	LighthouseUser.first.update_from_api!([LIGHTHOUSE PROJECT ID])
+	LighthouseTicket.update_all_from_api!(
+      LighthouseUser.first,
+      [LIGHTHOUSE PROJECT ID]
+    )
 
 Subsequent runs will only download newly updated tickets.
 

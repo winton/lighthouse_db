@@ -1,12 +1,5 @@
 class Lighthouse
 
-  class <<self
-    def namespace_and_number_from_ticket_url(url)
-      regex = /:\/\/([^\.]+)[\D]+(\d+)/
-      url.match(regex).to_a[1..-1]
-    end
-  end
-
   def initialize(*args)
     @user = args.detect { |a| a.is_a?(LighthouseUser) }
     token = args.detect { |a| a.is_a?(String) }
@@ -22,12 +15,12 @@ class Lighthouse
 
   def memberships
     response = @http.get("/users/#{@user.lighthouse_id}/memberships.json").body
-    JSON.parse(response, symbolize_names: true)[:memberships]
+    parse_response(response)[:memberships]
   end
 
   def projects
     response = @http.get("/projects.json").body
-    JSON.parse(response, symbolize_names: true)[:projects]
+    parse_response(response)[:projects]
   end
 
   def recently_updated_tickets(project_id, page=1, limit=100)
@@ -38,17 +31,22 @@ class Lighthouse
       q:     'sort:updated'
     ).body
 
-    response = JSON.parse(response, symbolize_names: true)
-    response[:tickets].collect { |t| t[:ticket] }
+    parse_response(response)[:tickets].collect { |t| t[:ticket] }
   end
 
   def ticket(project_id, ticket_id)
     response = @http.get("/projects/#{project_id}/tickets/#{ticket_id}.json").body
-    JSON.parse(response, symbolize_names: true)[:ticket]
+    parse_response(response)[:ticket]
   end
 
   def user
     response = @http.get("/users/#{@user.lighthouse_id}.json").body
-    JSON.parse(response, symbolize_names: true)[:user]
+    parse_response(response)[:user]
+  end
+
+  private
+
+  def parse_response(response)
+    JSON.parse(response, symbolize_names: true)
   end
 end

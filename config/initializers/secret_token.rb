@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-LighthouseDb::Application.config.secret_key_base = 'a5812a12a4a608f0611b63e95fcf310916748094bdc845f283fe13f902648ba037fd9c29fb9f219d090eaa6f1fc563e801076d2604acc8efdb339a493da2c294'
+LighthouseDb::Application.config.secret_key_base = ENV['SECRET_KEY_BASE'] || 'a5812a12a4a608f0611b63e95fcf310916748094bdc845f283fe13f902648ba037fd9c29fb9f219d090eaa6f1fc563e801076d2604acc8efdb339a493da2c294'

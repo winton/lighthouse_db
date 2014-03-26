@@ -6,23 +6,16 @@ class LighthouseTicket < ActiveRecord::Base
   belongs_to :lighthouse_user
 
   def create_lighthouse_users
-    if self.assigned_lighthouse_id
-      self.assigned_lighthouse_user = LighthouseUser.where(
-        lighthouse_id: self.assigned_lighthouse_id,
-        namespace:     self.namespace
-      ).first_or_initialize
+    ids = [ self.assigned_lighthouse_id, self.lighthouse_id ]
 
-      self.assigned_lighthouse_user.update_from_api!(token)
+    users = ids.map do |lh_id|
+      attributes = { lighthouse_id: lh_id, namespace: self.namespace }
+      lh_user    = LighthouseUser.where(attributes).first_or_initialize
+      lh_user.update_from_api!(token)
+      lh_user
     end
 
-    if self.lighthouse_id
-      self.lighthouse_user = LighthouseUser.where(
-        lighthouse_id: self.lighthouse_id,
-        namespace:     self.namespace
-      ).first_or_initialize
-
-      self.lighthouse_user.update_from_api!(token)
-    end
+    self.assigned_lighthouse_user, self.lighthouse_user = users
   end
 
   def namespace

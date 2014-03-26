@@ -52,6 +52,7 @@ class LighthouseUser < ActiveRecord::Base
       ticket = lighthouse_tickets.build(attributes)
     end
 
+    ticket.create_lighthouse_users
     ticket.save
   end
 end

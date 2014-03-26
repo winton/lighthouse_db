@@ -1,27 +1,27 @@
 class LighthouseTicket < ActiveRecord::Base
   
-  attr_accessor :assigned_lighthouse_id, :lighthouse_id
+  attr_accessor :assigned_lighthouse_id, :lighthouse_id, :token
 
   belongs_to :assigned_lighthouse_user, :class_name => 'LighthouseUser'
   belongs_to :lighthouse_user
 
-  before_save do |ticket|
-    if ticket.assigned_lighthouse_id
-      ticket.assigned_lighthouse_user = LighthouseUser.where(
-        lighthouse_id: ticket.assigned_lighthouse_id,
-        namespace:     ticket.namespace
+  def create_lighthouse_users
+    if self.assigned_lighthouse_id
+      self.assigned_lighthouse_user = LighthouseUser.where(
+        lighthouse_id: self.assigned_lighthouse_id,
+        namespace:     self.namespace
       ).first_or_initialize
 
-      ticket.assigned_lighthouse_user.update_name_and_job!(token)
+      self.assigned_lighthouse_user.update_name_and_job!(token)
     end
 
-    if ticket.lighthouse_id
-      ticket.lighthouse_user = LighthouseUser.where(
-        lighthouse_id: ticket.lighthouse_id,
-        namespace:     ticket.namespace
+    if self.lighthouse_id
+      self.lighthouse_user = LighthouseUser.where(
+        lighthouse_id: self.lighthouse_id,
+        namespace:     self.namespace
       ).first_or_initialize
 
-      ticket.lighthouse_user.update_name_and_job!(token)
+      self.lighthouse_user.update_name_and_job!(token)
     end
   end
 

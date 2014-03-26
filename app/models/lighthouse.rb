@@ -8,14 +8,16 @@ class Lighthouse
   end
 
   def initialize(*args)
-    @user    = args.detect { |a| a.is_a?(LighthouseUser) }
+    @user = args.detect { |a| a.is_a?(LighthouseUser) }
+    token = args.detect { |a| a.is_a?(String) }
+
     @api_url = "https://#{@user.namespace}.lighthouseapp.com"
 
     @http = Faraday.new @api_url, ssl: { verify: false } do |conn|
       conn.adapter :excon
     end
     
-    @http.headers['X-LighthouseToken'] = @user.token
+    @http.headers['X-LighthouseToken'] = @user.token || token
   end
 
   def memberships
@@ -46,7 +48,7 @@ class Lighthouse
   end
 
   def user
-    response = @http.get("/profile.json").body
+    response = @http.get("/users/#{@user.lighthouse_id}.json").body
     JSON.parse(response, symbolize_names: true)[:user]
   end
 end

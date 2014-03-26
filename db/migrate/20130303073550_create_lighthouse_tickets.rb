@@ -16,6 +16,9 @@ class CreateLighthouseTickets < ActiveRecord::Migration
       t.timestamps
 
       t.index :number
+      t.index :state
+      t.index :url
+
       t.index :assigned_lighthouse_user_id
       t.index :lighthouse_user_id
     end

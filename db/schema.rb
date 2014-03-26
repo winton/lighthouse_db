@@ -45,8 +45,12 @@ ActiveRecord::Schema.define(version: 20140324192514) do
   add_index "lighthouse_tickets", ["assigned_lighthouse_user_id"], name: "index_lighthouse_tickets_on_assigned_lighthouse_user_id"
   add_index "lighthouse_tickets", ["lighthouse_user_id"], name: "index_lighthouse_tickets_on_lighthouse_user_id"
   add_index "lighthouse_tickets", ["number"], name: "index_lighthouse_tickets_on_number"
+  add_index "lighthouse_tickets", ["state"], name: "index_lighthouse_tickets_on_state"
+  add_index "lighthouse_tickets", ["url"], name: "index_lighthouse_tickets_on_url"
 
   create_table "lighthouse_users", force: true do |t|
+    t.string   "job"
+    t.string   "name"
     t.string   "namespace"
     t.string   "token"
     t.integer  "lighthouse_id"
@@ -54,7 +58,9 @@ ActiveRecord::Schema.define(version: 20140324192514) do
     t.datetime "updated_at"
   end
 
+  add_index "lighthouse_users", ["job"], name: "index_lighthouse_users_on_job"
   add_index "lighthouse_users", ["lighthouse_id"], name: "index_lighthouse_users_on_lighthouse_id"
+  add_index "lighthouse_users", ["name"], name: "index_lighthouse_users_on_name"
   add_index "lighthouse_users", ["namespace"], name: "index_lighthouse_users_on_namespace"
   add_index "lighthouse_users", ["token"], name: "index_lighthouse_users_on_token"
 

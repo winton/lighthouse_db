@@ -8,15 +8,25 @@ class LighthouseTicket < ActiveRecord::Base
   before_save do |ticket|
     if ticket.assigned_lighthouse_id
       ticket.assigned_lighthouse_user = LighthouseUser.where(
-        lighthouse_id: ticket.assigned_lighthouse_id
-      ).first_or_create
+        lighthouse_id: ticket.assigned_lighthouse_id,
+        namespace:     ticket.namespace
+      ).first_or_initialize
+
+      ticket.assigned_lighthouse_user.update_name_and_job!(token)
     end
 
     if ticket.lighthouse_id
       ticket.lighthouse_user = LighthouseUser.where(
-        lighthouse_id: ticket.lighthouse_id
-      ).first_or_create
+        lighthouse_id: ticket.lighthouse_id,
+        namespace:     ticket.namespace
+      ).first_or_initialize
+
+      ticket.lighthouse_user.update_name_and_job!(token)
     end
+  end
+
+  def namespace
+    self.url.match(/\/\/([^\.]+)/)[1] rescue nil
   end
 
   def needs_update?(api_ticket)
@@ -29,7 +39,7 @@ class LighthouseTicket < ActiveRecord::Base
       Hash[ LighthouseTicket.where(number: numbers).map { |t| [ t.number, t ] } ]
     end
 
-    def to_attributes(t)
+    def to_attributes(t, token)
       {
         assigned_lighthouse_id: t[:assigned_user_id],
         body:                   t[:original_body_html],
@@ -39,6 +49,7 @@ class LighthouseTicket < ActiveRecord::Base
         ticket_created_at:      t[:created_at],
         ticket_updated_at:      t[:updated_at],
         title:                  t[:title],
+        token:                  token,
         url:                    t[:url]
       }
     end

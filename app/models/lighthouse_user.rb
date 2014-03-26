@@ -1,22 +1,16 @@
-# require 'persist_changes'
-
 class LighthouseUser < ActiveRecord::Base
-
-  # include PersistChanges
-
-  # after_commit :update_lighthouse_id
-  # after_save   :update_lighthouse_id if Rails.env == 'test'
-
-  # after_commit :remove_dups
-  # after_save   :remove_dups if Rails.env == 'test'
 
   has_many :assigned_lighthouse_tickets, :class_name => 'LighthouseTicket', :foreign_key => 'assigned_lighthouse_user_id'
   has_many :lighthouse_tickets
 
-  def remove_dups
-    LighthouseUser.where(<<-SQL, namespace, token, id).delete_all
-      namespace = ? AND token = ? AND id <> ?
-    SQL
+  def update_name_and_job!(token)
+    unless self.job || self.name
+      lh = Lighthouse.new(self, token).user
+      self.job  = lh[:job]
+      self.name = lh[:name]
+    end
+
+    save
   end
 
   def update_from_api!(project_id, page=1, limit=100)
@@ -32,14 +26,6 @@ class LighthouseUser < ActiveRecord::Base
     end
 
     update_from_api!(project_id, page + 1, limit)  if next_page?
-  end
-
-  def update_lighthouse_id
-    return if lighthouse_id || !namespace
-    reset_changes # makes test env same as production
-
-    self.lighthouse_id = Lighthouse.new(self).user[:id]
-    update_all_changes
   end
 
   private
@@ -58,7 +44,7 @@ class LighthouseUser < ActiveRecord::Base
 
   def update_ticket_from_api(api_ticket)
     ticket     = @tickets_hash[api_ticket[:number]]
-    attributes = LighthouseTicket.to_attributes(api_ticket)
+    attributes = LighthouseTicket.to_attributes(api_ticket, token)
     
     if ticket
       ticket.assign_attributes(attributes)

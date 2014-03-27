@@ -45,6 +45,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'aws-sdk'
 gem 'excon'
 gem 'faraday', '< 0.9.0'
 gem 'unicorn-rails'

@@ -1,10 +1,8 @@
 require 'spec_helper'
 
 describe LighthouseTicket do
-
-  fixtures :lighthouse_users
-
-  let(:lh_user) { lighthouse_users(:default) }
+  
+  let(:lh_user) { FactoryGirl.create(:lighthouse_user) }
 
   describe "#needs_update" do
 

@@ -1,10 +1,8 @@
 require 'spec_helper'
 
 describe Lighthouse do
-
-  fixtures :lighthouse_users
-
-  let(:lh_user) { lighthouse_users(:default) }
+  
+  let(:lh_user) { FactoryGirl.create(:lighthouse_user) }
 
   it "should retrieve information for the current user" do
     VCR.use_cassette('lighthouse') do

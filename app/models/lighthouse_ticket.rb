@@ -9,6 +9,7 @@ class LighthouseTicket < ActiveRecord::Base
     ids = [ self.assigned_lighthouse_id, self.lighthouse_id ]
 
     users = ids.map do |lh_id|
+      next unless lh_id
       attributes = { lighthouse_id: lh_id, namespace: self.namespace }
       lh_user    = LighthouseUser.where(attributes).first_or_initialize
       lh_user.update_from_api!(token)

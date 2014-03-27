@@ -34,5 +34,5 @@ http://cl.ly/image/2y0p0w0B0Q2V
 
 Required environmental variables:
 
-  RAILS_ENV=test rake db:migrate  
-  LIGHTHOUSE_TOKEN='' LIGHTHOUSE_NAMESPACE='' LIGHTHOUSE_USER_ID='' rspec spec
+    RAILS_ENV=test rake db:migrate  
+    LIGHTHOUSE_TOKEN='' LIGHTHOUSE_NAMESPACE='' LIGHTHOUSE_USER_ID='' rspec spec

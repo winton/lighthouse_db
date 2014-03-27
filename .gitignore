@@ -15,4 +15,8 @@
 /log/*.log
 /tmp
 
+# Fixtures
 /spec/fixtures
+
+# Database YAML
+/config/database.yml

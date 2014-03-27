@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140324192514) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
@@ -24,9 +27,9 @@ ActiveRecord::Schema.define(version: 20140324192514) do
     t.datetime "updated_at"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "lighthouse_tickets", force: true do |t|
     t.integer  "number"
@@ -42,11 +45,11 @@ ActiveRecord::Schema.define(version: 20140324192514) do
     t.datetime "updated_at"
   end
 
-  add_index "lighthouse_tickets", ["assigned_lighthouse_user_id"], name: "index_lighthouse_tickets_on_assigned_lighthouse_user_id"
-  add_index "lighthouse_tickets", ["lighthouse_user_id"], name: "index_lighthouse_tickets_on_lighthouse_user_id"
-  add_index "lighthouse_tickets", ["number"], name: "index_lighthouse_tickets_on_number"
-  add_index "lighthouse_tickets", ["state"], name: "index_lighthouse_tickets_on_state"
-  add_index "lighthouse_tickets", ["url"], name: "index_lighthouse_tickets_on_url"
+  add_index "lighthouse_tickets", ["assigned_lighthouse_user_id"], name: "index_lighthouse_tickets_on_assigned_lighthouse_user_id", using: :btree
+  add_index "lighthouse_tickets", ["lighthouse_user_id"], name: "index_lighthouse_tickets_on_lighthouse_user_id", using: :btree
+  add_index "lighthouse_tickets", ["number"], name: "index_lighthouse_tickets_on_number", using: :btree
+  add_index "lighthouse_tickets", ["state"], name: "index_lighthouse_tickets_on_state", using: :btree
+  add_index "lighthouse_tickets", ["url"], name: "index_lighthouse_tickets_on_url", using: :btree
 
   create_table "lighthouse_users", force: true do |t|
     t.string   "job"
@@ -58,10 +61,10 @@ ActiveRecord::Schema.define(version: 20140324192514) do
     t.datetime "updated_at"
   end
 
-  add_index "lighthouse_users", ["job"], name: "index_lighthouse_users_on_job"
-  add_index "lighthouse_users", ["lighthouse_id"], name: "index_lighthouse_users_on_lighthouse_id"
-  add_index "lighthouse_users", ["name"], name: "index_lighthouse_users_on_name"
-  add_index "lighthouse_users", ["namespace"], name: "index_lighthouse_users_on_namespace"
-  add_index "lighthouse_users", ["token"], name: "index_lighthouse_users_on_token"
+  add_index "lighthouse_users", ["job"], name: "index_lighthouse_users_on_job", using: :btree
+  add_index "lighthouse_users", ["lighthouse_id"], name: "index_lighthouse_users_on_lighthouse_id", using: :btree
+  add_index "lighthouse_users", ["name"], name: "index_lighthouse_users_on_name", using: :btree
+  add_index "lighthouse_users", ["namespace"], name: "index_lighthouse_users_on_namespace", using: :btree
+  add_index "lighthouse_users", ["token"], name: "index_lighthouse_users_on_token", using: :btree
 
 end

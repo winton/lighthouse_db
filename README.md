@@ -1,6 +1,6 @@
 ##LighthouseDb
 
-[![Code Climate](https://codeclimate.com/repos/533278906956807aae005f2a/badges/6d478f0656290243abfc/gpa.png)](https://codeclimate.com/repos/533278906956807aae005f2a/feed)
+[![Build Status](https://travis-ci.org/winton/lighthouse_db.svg?branch=master)](https://travis-ci.org/winton/lighthouse_db) [![Code Climate](https://codeclimate.com/repos/533278906956807aae005f2a/badges/6d478f0656290243abfc/gpa.png)](https://codeclimate.com/repos/533278906956807aae005f2a/feed)
 
 Lighthouse API -> DB
 

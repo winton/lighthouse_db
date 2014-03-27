@@ -45,12 +45,14 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'activeadmin', github: 'gregbell/active_admin'
-gem 'aws-sdk'
 gem 'excon'
 gem 'faraday', '< 0.9.0'
-gem 'unicorn-rails'
+
+gem 'unicorn-rails', group: :development
+gem "codeclimate-test-reporter", group: :test, require: nil
 
 group :development, :test do
+  gem "aws-sdk"
   gem "factory_girl"
   gem "factory_girl_rails"
   gem "rspec-rails", '~> 3.0.0.beta'

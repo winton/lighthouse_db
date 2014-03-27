@@ -5,6 +5,8 @@ class LighthouseTicket < ActiveRecord::Base
   belongs_to :assigned_lighthouse_user, :class_name => 'LighthouseUser'
   belongs_to :lighthouse_user
 
+  has_many :lighthouse_events
+
   def create_lighthouse_users
     ids = [ self.assigned_lighthouse_id, self.lighthouse_id ]
 
@@ -19,12 +21,40 @@ class LighthouseTicket < ActiveRecord::Base
     self.assigned_lighthouse_user, self.lighthouse_user = users
   end
 
+  def create_lighthouse_event_from_version(event_type, version)
+    event = LighthouseEvent.new(
+      event:       event_type,
+      body:        version[:body],
+      milestone:   version[:milestone_title],
+      state:       version[:state],
+      happened_at: version[:created_at],
+      assigned_lighthouse_id: version[:assigned_user_id],
+      lighthouse_ticket_id:   self.id
+    )
+    event.save
+  end
+
   def namespace
     self.url.match(/\/\/([^\.]+)/)[1] rescue nil
   end
 
   def needs_update?(ticket)
     ticket_updated_at != Time.parse(ticket[:updated_at])
+  end
+
+  def update_lighthouse_events(lighthouse, project_id)
+    self.lighthouse_events.delete_all
+    
+    lighthouse.ticket(project_id, self.number)[:versions][1..-1].each do |version|
+      if version[:body]
+        create_lighthouse_event_from_version(:body, version)
+      end
+      version[:diffable_attributes].keys.each do |key|
+        if [ :assigned_user, :state ].include?(key)
+          create_lighthouse_event_from_version(key, version)
+        end
+      end
+    end
   end
 
   class <<self
@@ -51,6 +81,7 @@ class LighthouseTicket < ActiveRecord::Base
         assigned_lighthouse_id: t[:assigned_user_id],
         body:                   t[:original_body_html],
         lighthouse_id:          t[:creator_id],
+        milestone:              t[:milestone_title],
         number:                 t[:number],
         state:                  t[:state],
         ticket_created_at:      t[:created_at],
@@ -73,6 +104,7 @@ class LighthouseTicket < ActiveRecord::Base
         ticket.token = user.token
         ticket.create_lighthouse_users
         ticket.save
+        ticket.update_lighthouse_events(lighthouse, project_id)
       end
 
       if next_page?(tickets, tickets_hash)
@@ -81,8 +113,8 @@ class LighthouseTicket < ActiveRecord::Base
     end
 
     def update_ticket_from_api(tickets_hash, api_ticket)
-      ticket     = tickets_hash[api_ticket[:number]]
-      ticket   ||= LighthouseTicket.new
+      ticket   = tickets_hash[api_ticket[:number]]
+      ticket ||= LighthouseTicket.new
 
       attributes = to_attributes(api_ticket)
       

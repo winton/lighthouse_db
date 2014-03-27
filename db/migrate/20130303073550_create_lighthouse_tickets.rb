@@ -2,6 +2,7 @@ class CreateLighthouseTickets < ActiveRecord::Migration
   def change
     create_table :lighthouse_tickets do |t|
       t.integer :number
+      t.string  :milestone
       t.string  :state
       t.string  :title
       t.string  :url,  limit: 256

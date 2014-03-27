@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324192514) do
+ActiveRecord::Schema.define(version: 20140327211652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,26 @@ ActiveRecord::Schema.define(version: 20140324192514) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
+  create_table "lighthouse_events", force: true do |t|
+    t.string   "event"
+    t.string   "body",                        limit: 20480
+    t.string   "milestone"
+    t.string   "state"
+    t.integer  "assigned_lighthouse_user_id"
+    t.integer  "lighthouse_ticket_id"
+    t.datetime "happened_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "lighthouse_events", ["assigned_lighthouse_user_id"], name: "index_lighthouse_events_on_assigned_lighthouse_user_id", using: :btree
+  add_index "lighthouse_events", ["event"], name: "index_lighthouse_events_on_event", using: :btree
+  add_index "lighthouse_events", ["lighthouse_ticket_id"], name: "index_lighthouse_events_on_lighthouse_ticket_id", using: :btree
+  add_index "lighthouse_events", ["state"], name: "index_lighthouse_events_on_state", using: :btree
+
   create_table "lighthouse_tickets", force: true do |t|
     t.integer  "number"
+    t.string   "milestone"
     t.string   "state"
     t.string   "title"
     t.string   "url",                         limit: 256

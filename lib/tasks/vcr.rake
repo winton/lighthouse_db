@@ -14,7 +14,7 @@ namespace :vcr do
   task :download do
     FileUtils.mkdir_p(vcr_dir)
     s3_bucket.objects.with_prefix("#{s3_vcr_dir}/").each do |obj|
-      File.open("#{vcr_dir}/#{obj.key}", 'w') do |f|
+      File.open("#{vcr_dir}/#{File.basename(obj.key)}", 'w') do |f|
         f.write(obj.read)
       end
     end

@@ -8,6 +8,7 @@ Lighthouse API -> DB
 
     git clone git@github.com:winton/lighthouse_db.git
     bundle
+    cp config/database.example.yml config/database.yml
     rake db:migrate
     rails s
 
@@ -33,8 +34,5 @@ http://cl.ly/image/2y0p0w0B0Q2V
 
 Required environmental variables:
 
-* `LIGHTHOUSE_TOKEN`
-* `LIGHTHOUSE_NAMESPACE`
-* `LIGHTHOUSE_USER_ID`
-
-    rspec spec
+  RAILS_ENV=test rake db:migrate  
+  LIGHTHOUSE_TOKEN='' LIGHTHOUSE_NAMESPACE='' LIGHTHOUSE_USER_ID='' rspec spec

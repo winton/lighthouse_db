@@ -21,8 +21,7 @@ http://cl.ly/image/2y0p0w0B0Q2V
 
     rails c
     LighthouseTicket.update_all_from_api!(
-      LighthouseUser.first,
-      [LIGHTHOUSE PROJECT ID]
+      LighthouseUser.first, [LIGHTHOUSE PROJECT ID]
     )
 
 Subsequent runs will only download newly updated tickets.
@@ -30,8 +29,6 @@ Subsequent runs will only download newly updated tickets.
 [View Lighthouse tickets](http://127.0.0.1:3000/admin/lighthouse_tickets)
 
 ###Running Specs
-
-Required environmental variables:
 
     RAILS_ENV=test rake db:migrate  
     LIGHTHOUSE_TOKEN='' LIGHTHOUSE_NAMESPACE='' LIGHTHOUSE_USER_ID='' rspec spec

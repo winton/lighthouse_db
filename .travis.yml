@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+- 2.1.1
+before_script:
+- cp config/database.example.yml config/database.yml
+- psql -c 'create database lighthouse_db_test;' -U postgres
+- rake vcr:download
+env:
+  global:
+  - secure: N1LHszvh+Gm66YO4aQlY5XUrbwCp4UfzJZyxWAEOaYaQDV/O81i6f9NBoscEgsHf2KzQVVvIb1pOSzbiTKhXTpJSvBbiaXPDYcxtiZkrhTbUsg4CkVHDZPnAVcETdEMd4O2Sr51L3HhAykGakUqR+0tneD9TcXvh97kIkE4uCh8=
+  - secure: A/NnEqqG4DlWADk7Xr8hRY69JRtxgLOHKAlRTtweb0npfkjRVg+bt/uArn4CDwC65woA1rBMxp5y0rX1QEnUDPPl2kHC63Hdmm/J9rNm2d5aBns9iaCxX/dC8qrsgDfUoW+t83q1Q7LPhk68KHdh3GuP6zuGnzraz8AjGInIT20=
+  - secure: bb7oMEi/swAyv/lZ70ov5cisLmnMxtqFquUorfSv+F0h1ZEigHlgwxjR5yQ7GL2sPiXvhhUbuZ9e/hClH41Iz1GJchvsEJhrdquummIXE9bbrsxkOBg4CqS1fYDxkRSfeu6ajEEi4mVN+8Mg1J4zxDi8tMuNqryVQDbfdpiA/gQ=
+  - secure: Am7+tPkP/xH9Bw1mQ+Wlg1xuIuHDZsZe2INwGE6vwnkE/Hotod6jO3+0rfVqy1fIcqxJFaco27fZ88qCn2WLzWmDa+KUDtCBrZCSeHy1DLXE84XeNCu/M2WS0S2uM2fwhvI4qsJV34SW3UbD/LD2bv3A03VhR2mTTFkdmxN3otU=
+  - secure: Y/JQmCEiy8DnnEXVitldLtlw7KZTOoOfBwLntVftGAEpO7QqmQK9ILMkJ6MzaqxSLcYgXzgYnuTRuEYhu7NVEu4MUAlkMuYiHqwmJf5GuQV++zVoQdiRZTPp36nsZzbvT95EPMZm/Ok5PIqZxpibUZSben9OOSNP+PJMCuzLyHc=
+  - secure: mDki/uvwdMAqWGS53Gpm5mtOSjZxH20KnNCyiqzqvNyLfojtH9SXdZ+jklt9K7mQzmqoSJZe9YLa0DP1s9UwEsFP4UgL5vGEz2aSBm8DEwMFhdSZQJQfE//+JRpCS4BVW1obULEBNhp0jTcAoZIOLdDjWjB9MFVzcg5mPbsUo84=

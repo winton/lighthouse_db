@@ -28,3 +28,13 @@ Subsequent runs will only download newly updated tickets.
 ###Screenshot
 
 http://cl.ly/image/2y0p0w0B0Q2V
+
+###Running Specs
+
+Required environmental variables:
+
+* `LIGHTHOUSE_TOKEN`
+* `LIGHTHOUSE_NAMESPACE`
+* `LIGHTHOUSE_USER_ID`
+
+    rspec spec

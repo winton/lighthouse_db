@@ -4,9 +4,12 @@
 
 Lighthouse API -> DB
 
+http://cl.ly/image/2y0p0w0B0Q2V
+
 ###Install
 
     git clone git@github.com:winton/lighthouse_db.git
+    cd lighthouse_db
     bundle
     cp config/database.example.yml config/database.yml
     rake db:migrate
@@ -16,8 +19,8 @@ Lighthouse API -> DB
 
 [Set up the Lighthouse user](http://127.0.0.1:3000/admin/lighthouse_users/new)
 
-	rails c
-	LighthouseTicket.update_all_from_api!(
+    rails c
+    LighthouseTicket.update_all_from_api!(
       LighthouseUser.first,
       [LIGHTHOUSE PROJECT ID]
     )
@@ -25,10 +28,6 @@ Lighthouse API -> DB
 Subsequent runs will only download newly updated tickets.
 
 [View Lighthouse tickets](http://127.0.0.1:3000/admin/lighthouse_tickets)
-
-###Screenshot
-
-http://cl.ly/image/2y0p0w0B0Q2V
 
 ###Running Specs
 

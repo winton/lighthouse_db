@@ -36,6 +36,13 @@ describe LighthouseTicket do
 
   describe ".update_all_from_api!" do
 
+    def lighthouse_user_matcher(user)
+      user.should               be_a(LighthouseUser)
+      user.name.should          be_a(String)
+      user.namespace.should     be_a(String)
+      user.lighthouse_id.should be_a(Fixnum)
+    end
+
     it "should update database from recently updated tickets" do
       VCR.use_cassette('lighthouse') do
         LighthouseTicket.should_receive(:update_all_from_api!).with(lh_user, 6296, 1, 10).and_call_original
@@ -43,10 +50,10 @@ describe LighthouseTicket do
         LighthouseTicket.should_receive(:update_all_from_api!).with(lh_user, 6296, 3, 10)
         LighthouseTicket.update_all_from_api!(lh_user, 6296, 1, 10)
 
-        assigned = false
-        
-        LighthouseTicket.count.should eq(20)
-        LighthouseTicket.all.each do |ticket|
+        tickets = LighthouseTicket.all
+        tickets.length.should eq(20)
+
+        tickets.each do |ticket|
           ticket.body.should    be_a(String)
           ticket.number.should  be_a(Fixnum)
           ticket.state.should   be_a(String)
@@ -55,15 +62,21 @@ describe LighthouseTicket do
           ticket.title.should   be_a(String)
           ticket.url.should     be_a(String)
 
-          assigned ||= ticket.assigned_lighthouse_user.is_a?(LighthouseUser)
+          lighthouse_user_matcher(ticket.lighthouse_user)
 
-          ticket.lighthouse_user.should      be_a(LighthouseUser)
-          ticket.lighthouse_user.name.should be_a(String)
-          ticket.lighthouse_user.namespace.should     be_a(String)
-          ticket.lighthouse_user.lighthouse_id.should be_a(Fixnum)
+          ticket.lighthouse_events.each do |event|
+            event.event.should be_a(String)
+            event.state.should be_a(String)
+            event.happened_at.should be_a(ActiveSupport::TimeWithZone)
+          end
         end
 
-        assigned.should == true
+        assigned_users = tickets.map(&:assigned_lighthouse_user).compact
+        assigned_users.length.should be > 0
+
+        assigned_users.each do |user|
+          lighthouse_user_matcher(user)
+        end
       end
     end
 

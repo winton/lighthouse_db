@@ -1,16 +1,28 @@
 ActiveAdmin.register LighthouseTicket do
 
-  # See permitted parameters documentation:
-  # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #  permitted = [:permitted, :attributes]
-  #  permitted << :other if resource.something?
-  #  permitted
-  # end
-  
+  filter :number
+  filter :milestone
+  filter :state
+  filter :title
+  filter :url
+  filter :lighthouse_user
+  filter :assigned_lighthouse_user
+  filter :ticket_created_at
+  filter :ticket_updated_at
+
+  index do
+    column :number
+    column :milestone
+    column :state
+    column :title
+    column :lighthouse_user
+    column :assigned_lighthouse_user
+    default_actions
+  end
+
+  sidebar "Relationships", only: [:show, :edit] do
+    ul do
+      li link_to("Events", admin_lighthouse_ticket_lighthouse_events_path(lighthouse_ticket))
+    end
+  end
 end

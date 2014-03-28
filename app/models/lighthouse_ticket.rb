@@ -1,3 +1,5 @@
+require 'create_lighthouse_users'
+
 class LighthouseTicket < ActiveRecord::Base
   
   attr_accessor :assigned_lighthouse_id, :lighthouse_id, :token
@@ -7,21 +9,7 @@ class LighthouseTicket < ActiveRecord::Base
 
   has_many :lighthouse_events
 
-  def create_lighthouse_users
-    ids = [ self.assigned_lighthouse_id, self.lighthouse_id ]
-
-    users = ids.map do |lh_id|
-      next unless lh_id
-      attributes = { lighthouse_id: lh_id, namespace: self.namespace }
-      lh_user    = LighthouseUser.where(attributes).first_or_initialize
-      lh_user.update_from_api!(token)
-      lh_user
-    end
-
-    self.assigned_lighthouse_user, self.lighthouse_user = users
-  end
-
-  def create_lighthouse_event_from_version(event_type, version)
+  def create_lighthouse_event_from_version(event_type, version, token)
     event = LighthouseEvent.new(
       event:       event_type,
       body:        version[:body],
@@ -31,6 +19,9 @@ class LighthouseTicket < ActiveRecord::Base
       assigned_lighthouse_id: version[:assigned_user_id],
       lighthouse_ticket_id:   self.id
     )
+
+    event.token = token
+    CreateLighthouseUsers.new(event, self.namespace).create_users
     event.save
   end
 
@@ -47,11 +38,11 @@ class LighthouseTicket < ActiveRecord::Base
     
     lighthouse.ticket(project_id, self.number)[:versions][1..-1].each do |version|
       if version[:body]
-        create_lighthouse_event_from_version(:body, version)
+        create_lighthouse_event_from_version(:body, version, lighthouse.token)
       end
       version[:diffable_attributes].keys.each do |key|
         if [ :assigned_user, :state ].include?(key)
-          create_lighthouse_event_from_version(key, version)
+          create_lighthouse_event_from_version(key, version, lighthouse.token)
         end
       end
     end
@@ -102,7 +93,9 @@ class LighthouseTicket < ActiveRecord::Base
       tickets.each do |ticket|
         ticket       = update_ticket_from_api(tickets_hash, ticket)
         ticket.token = user.token
-        ticket.create_lighthouse_users
+
+        CreateLighthouseUsers.new(ticket, ticket.namespace).create_users
+        
         ticket.save
         ticket.update_lighthouse_events(lighthouse, project_id)
       end

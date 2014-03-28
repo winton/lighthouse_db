@@ -1,8 +1,10 @@
 class Lighthouse
 
+  attr_reader :token
+
   def initialize(*args)
-    @user = args.detect { |a| a.is_a?(LighthouseUser) }
-    token = args.detect { |a| a.is_a?(String) }
+    @user  = args.detect { |a| a.is_a?(LighthouseUser) }
+    @token = @user.token || args.detect { |a| a.is_a?(String) }
 
     @api_url = "https://#{@user.namespace}.lighthouseapp.com"
 
@@ -10,7 +12,7 @@ class Lighthouse
       conn.adapter :excon
     end
     
-    @http.headers['X-LighthouseToken'] = @user.token || token
+    @http.headers['X-LighthouseToken'] = @token
   end
 
   def memberships

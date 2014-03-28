@@ -36,6 +36,15 @@ describe LighthouseTicket do
 
   describe ".update_all_from_api!" do
 
+    def assigned_lighthouse_user_matcher(obj)
+      assigned_users = obj.map(&:assigned_lighthouse_user).compact
+      assigned_users.length.should be > 0
+
+      assigned_users.each do |user|
+        lighthouse_user_matcher(user)
+      end
+    end
+
     def lighthouse_user_matcher(user)
       user.should               be_a(LighthouseUser)
       user.name.should          be_a(String)
@@ -53,6 +62,8 @@ describe LighthouseTicket do
         tickets = LighthouseTicket.all
         tickets.length.should eq(20)
 
+        events = []
+
         tickets.each do |ticket|
           ticket.body.should    be_a(String)
           ticket.number.should  be_a(Fixnum)
@@ -69,14 +80,12 @@ describe LighthouseTicket do
             event.state.should be_a(String)
             event.happened_at.should be_a(ActiveSupport::TimeWithZone)
           end
+
+          events += ticket.lighthouse_events
         end
 
-        assigned_users = tickets.map(&:assigned_lighthouse_user).compact
-        assigned_users.length.should be > 0
-
-        assigned_users.each do |user|
-          lighthouse_user_matcher(user)
-        end
+        assigned_lighthouse_user_matcher(events)
+        assigned_lighthouse_user_matcher(tickets)
       end
     end
 

@@ -13,8 +13,12 @@ describe TicketsFromApi do
         hash[number] = LighthouseTicket.create!(number: number)
         hash
       end
-      
-      subject.hash_tickets_by_numbers(0..9).should eq(hash)
+
+      tickets = (0..9).collect do |number|
+        { :number => number }
+      end
+
+      subject.hash_tickets_by_number(tickets).should eq(hash)
     end
   end
 

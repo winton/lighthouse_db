@@ -15,16 +15,6 @@ class Lighthouse
     @http.headers['X-LighthouseToken'] = @token
   end
 
-  def memberships
-    response = @http.get("/users/#{@user.lighthouse_id}/memberships.json").body
-    parse_response(response)[:memberships]
-  end
-
-  def projects
-    response = @http.get("/projects.json").body
-    parse_response(response)[:projects]
-  end
-
   def recently_updated_tickets(project_id, page=1, limit=100)
     response = @http.get(
       "/projects/#{project_id}/tickets.json",

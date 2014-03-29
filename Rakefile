@@ -4,10 +4,3 @@
 require File.expand_path('../config/application', __FILE__)
 
 LighthouseDb::Application.load_tasks
-
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.rspec_opts = "-f d"
-end
-
-Rake::Task["default"].clear
-task :default => :spec

@@ -1,8 +1,7 @@
 ActiveAdmin.register LighthouseEvent do
 
-  belongs_to :lighthouse_ticket
-
   index do
+    column :lighthouse_ticket
     column :event
     column :body
     column :milestone

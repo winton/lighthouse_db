@@ -16,9 +16,10 @@ class CreateLighthouseUsers < Struct.new(:obj, :namespace)
       lighthouse_id: user_id,
       namespace:     namespace
     }
-    
-    lh_user = LighthouseUser.where(attributes).first_or_initialize
-    lh_user.update_from_api!(obj.token)
-    lh_user
+
+    user = LighthouseUser.where(attributes).first_or_initialize
+    UserFromApi.new(user, obj.token).update
+
+    user
   end
 end

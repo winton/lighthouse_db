@@ -6,7 +6,7 @@ describe TicketsFromApi do
 
   subject { TicketsFromApi.new(6296, lh_user) }
 
-  describe "#hash_tickets_by_numbers" do
+  describe "#hash_by_numbers" do
 
     it "should create a hash of tickets by ticket number" do
       hash = (0..9).inject({}) do |hash, number|
@@ -18,7 +18,7 @@ describe TicketsFromApi do
         { :number => number }
       end
 
-      subject.hash_tickets_by_number(tickets).should eq(hash)
+      subject.hash_by_number(tickets).should eq(hash)
     end
   end
 

@@ -1,4 +1,10 @@
-class TicketFromApi < Struct.new(:ticket, :api_ticket)
+class TicketFromApi < Struct.new(:record, :api_record)
+
+  include RecordFromApi
+
+  def klass
+    LighthouseTicket
+  end
 
   def to_attributes(t)
     {
@@ -13,13 +19,5 @@ class TicketFromApi < Struct.new(:ticket, :api_ticket)
       title:                  t[:title],
       url:                    t[:url]
     }
-  end
-
-  def update
-    ticket ||= LighthouseTicket.new
-
-    attributes = to_attributes(api_ticket)  
-    ticket.assign_attributes(attributes)
-    ticket
   end
 end

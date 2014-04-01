@@ -1,4 +1,4 @@
-class Lighthouse
+class Lighthouse < Api
 
   attr_reader :token
 
@@ -7,11 +7,9 @@ class Lighthouse
     @token = @user.token || args.detect { |a| a.is_a?(String) }
 
     @api_url = "https://#{@user.namespace}.lighthouseapp.com"
-
-    @http = Faraday.new @api_url, ssl: { verify: false } do |conn|
-      conn.adapter :excon
-    end
     
+    super()
+
     @http.headers['X-LighthouseToken'] = @token
   end
 
@@ -34,11 +32,5 @@ class Lighthouse
   def user
     response = @http.get("/users/#{@user.lighthouse_id}.json").body
     parse_response(response)[:user]
-  end
-
-  private
-
-  def parse_response(response)
-    JSON.parse(response, symbolize_names: true)
   end
 end

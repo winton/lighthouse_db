@@ -1,5 +1,3 @@
-require 'create_lighthouse_users'
-
 class LighthouseTicket < ActiveRecord::Base
   
   attr_accessor :assigned_lighthouse_id, :lighthouse_id, :token

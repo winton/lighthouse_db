@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327211652) do
+ActiveRecord::Schema.define(version: 20140401190308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,43 @@ ActiveRecord::Schema.define(version: 20140327211652) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "github_issues", force: true do |t|
+    t.integer  "number"
+    t.string   "repo"
+    t.string   "state"
+    t.string   "title"
+    t.string   "url",                     limit: 256
+    t.string   "body",                    limit: 20480
+    t.integer  "assigned_github_user_id"
+    t.integer  "github_user_id"
+    t.datetime "issue_created_at"
+    t.datetime "issue_updated_at"
+    t.datetime "issue_closed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "github_issues", ["assigned_github_user_id"], name: "index_github_issues_on_assigned_github_user_id", using: :btree
+  add_index "github_issues", ["github_user_id"], name: "index_github_issues_on_github_user_id", using: :btree
+  add_index "github_issues", ["number"], name: "index_github_issues_on_number", using: :btree
+  add_index "github_issues", ["repo"], name: "index_github_issues_on_repo", using: :btree
+  add_index "github_issues", ["state"], name: "index_github_issues_on_state", using: :btree
+  add_index "github_issues", ["url"], name: "index_github_issues_on_url", using: :btree
+
+  create_table "github_users", force: true do |t|
+    t.string   "login"
+    t.string   "name"
+    t.string   "org"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "github_users", ["login"], name: "index_github_users_on_login", using: :btree
+  add_index "github_users", ["name"], name: "index_github_users_on_name", using: :btree
+  add_index "github_users", ["org"], name: "index_github_users_on_org", using: :btree
+  add_index "github_users", ["token"], name: "index_github_users_on_token", using: :btree
 
   create_table "lighthouse_events", force: true do |t|
     t.string   "event"

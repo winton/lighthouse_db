@@ -1,9 +1,10 @@
-class CreateLighthouseUsers < Struct.new(:obj, :namespace)
+class UpdateLighthouseUsers < Struct.new(:obj, :namespace)
 
-  def create_users
+  def update
     if obj.respond_to?(:assigned_lighthouse_user=)
       obj.assigned_lighthouse_user = create_user(obj.assigned_lighthouse_id)
     end
+
     if obj.respond_to?(:lighthouse_user=)
       obj.lighthouse_user = create_user(obj.lighthouse_id)
     end

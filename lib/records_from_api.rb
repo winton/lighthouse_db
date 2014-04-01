@@ -1,9 +1,9 @@
 module RecordsFromApi
 
-  def create_all(api, records, hash)
-    records.each do |record|
-      api_record = hash[record[:number]]
-      create(api, api_record, record)
+  def create_all(api, api_records, hash)
+    api_records.each do |api_record|
+      record = hash[api_record[:number]]
+      create(api, record, api_record)
     end
   end
 
@@ -13,12 +13,12 @@ module RecordsFromApi
     Hash[records.map { |t| [ t.number, t ] }]
   end
 
-  def next_page?(records, hash)
-    if records.last
-      last_record = hash[records.last[:number]]
+  def next_page?(api_records, hash)
+    if api_records.last
+      last_record = hash[api_records.last[:number]]
 
       if last_record
-        last_record.needs_update?(records.last)
+        last_record.needs_update?(api_records.last)
       else
         true
       end
@@ -28,12 +28,12 @@ module RecordsFromApi
   def update(page=1, limit=100)
     puts "Processing page #{page}..." unless Rails.env == "test"
 
-    api, records = recently_updated(page, limit)
-    hash         = hash_by_number(records)
+    api, api_records = recently_updated(page, limit)
+    hash             = hash_by_number(api_records)
     
-    create_all(api, records, hash)
+    create_all(api, api_records, hash)
 
-    if next_page?(records, hash)
+    if next_page?(api_records, hash)
       update(page + 1, limit)
     end
   end

@@ -2,11 +2,11 @@ class TicketsFromApi < Struct.new(:project_id, :user)
 
   include RecordsFromApi
 
-  def create(api, api_record, record)
-    record       = TicketFromApi.new(api_record, record).update
+  def create(api, record, api_record)
+    record       = TicketFromApi.new(record, api_record).update
     record.token = user.token
 
-    CreateLighthouseUsers.new(record, record.namespace).create_users
+    UpdateLighthouseUsers.new(record, record.namespace).update
     
     record.save
 

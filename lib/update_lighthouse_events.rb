@@ -12,7 +12,7 @@ class UpdateLighthouseEvents < Struct.new(:ticket, :lighthouse, :project_id)
     )
 
     event.token = lighthouse.token
-    CreateLighthouseUsers.new(event, ticket.namespace).create_users
+    UpdateLighthouseUsers.new(event, ticket.namespace).update
     event.save
   end
 

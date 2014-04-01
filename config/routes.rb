@@ -54,4 +54,6 @@ LighthouseDb::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  resources :shipped
 end

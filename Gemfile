@@ -45,6 +45,8 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'bootstrap-sass'
+gem 'haml-rails'
 gem 'excon'
 gem 'faraday', '< 0.9.0'
 

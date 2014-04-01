@@ -1,0 +1,14 @@
+= stylesheet_link_tag    "shipped", media: "all"
+= javascript_include_tag "shipped"
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Users
+  %tbody
+    - @tickets.each do |ticket, users|
+      %tr
+        %td
+          %a{ href: ticket.url }= ticket.title
+        %td= users.join(", ")

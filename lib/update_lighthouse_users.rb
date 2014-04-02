@@ -1,4 +1,4 @@
-class UpdateLighthouseUsers < Struct.new(:obj, :namespace)
+class UpdateLighthouseUsers < Struct.new(:obj, :api, :namespace)
 
   def update
     if obj.respond_to?(:assigned_lighthouse_user=)
@@ -19,7 +19,7 @@ class UpdateLighthouseUsers < Struct.new(:obj, :namespace)
     }
 
     user = LighthouseUser.where(attributes).first_or_initialize
-    UserFromApi.new(user, obj.token).update
+    LighthouseUserFromApi.new(user, api).update
 
     user
   end

@@ -6,7 +6,7 @@ class IssuesFromApi < Struct.new(:user)
     record       = IssueFromApi.new(record, api_record).update
     record.token = user.token
 
-    # CreateGithubUsers.new(record).create_users
+    UpdateGithubUsers.new(record, api, user.org).update
     
     record.save
   end

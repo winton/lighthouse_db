@@ -1,8 +1,8 @@
-class UserFromApi < Struct.new(:user, :token)
+class LighthouseUserFromApi < Struct.new(:user, :api)
 
   def update
     unless user.job || user.name
-      lh = Lighthouse.new(user, token).user
+      lh = api.user(user)
       user.job  = lh[:job]
       user.name = lh[:name]
     end

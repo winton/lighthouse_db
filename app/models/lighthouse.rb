@@ -29,8 +29,9 @@ class Lighthouse < Api
     parse_response(response)[:ticket]
   end
 
-  def user
-    response = @http.get("/users/#{@user.lighthouse_id}.json").body
+  def user(user=nil)
+    user   ||= @user
+    response = @http.get("/users/#{user.lighthouse_id}.json").body
     parse_response(response)[:user]
   end
 end

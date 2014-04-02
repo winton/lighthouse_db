@@ -20,4 +20,10 @@ class Github < Api
 
     parse_response(response)
   end
+
+  def user(user=nil)
+    user   ||= @user
+    response = @http.get("/users/#{user.login}").body
+    parse_response(response)
+  end
 end

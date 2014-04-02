@@ -6,7 +6,7 @@ class TicketsFromApi < Struct.new(:project_id, :user)
     record       = TicketFromApi.new(record, api_record).update
     record.token = user.token
 
-    UpdateLighthouseUsers.new(record, record.namespace).update
+    UpdateLighthouseUsers.new(record, api, record.namespace).update
     
     record.save
 

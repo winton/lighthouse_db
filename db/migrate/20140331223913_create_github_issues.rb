@@ -7,6 +7,11 @@ class CreateGithubIssues < ActiveRecord::Migration
       t.string  :title
       t.string  :url,  limit: 256
       t.string  :body, limit: 20480
+      t.integer :commits,        default: 0
+      t.integer :file_additions, default: 0
+      t.integer :file_deletions, default: 0
+      t.integer :file_changes,   default: 0
+      t.boolean :merged
       
       t.integer :assigned_github_user_id
       t.integer :github_user_id
@@ -24,6 +29,10 @@ class CreateGithubIssues < ActiveRecord::Migration
 
       t.index :assigned_github_user_id
       t.index :github_user_id
+
+      t.index :issue_created_at
+      t.index :issue_updated_at
+      t.index :issue_closed_at
     end
   end
 end

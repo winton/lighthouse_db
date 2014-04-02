@@ -38,6 +38,11 @@ ActiveRecord::Schema.define(version: 20140401190308) do
     t.string   "title"
     t.string   "url",                     limit: 256
     t.string   "body",                    limit: 20480
+    t.integer  "commits",                               default: 0
+    t.integer  "file_additions",                        default: 0
+    t.integer  "file_deletions",                        default: 0
+    t.integer  "file_changes",                          default: 0
+    t.boolean  "merged"
     t.integer  "assigned_github_user_id"
     t.integer  "github_user_id"
     t.datetime "issue_created_at"
@@ -49,6 +54,9 @@ ActiveRecord::Schema.define(version: 20140401190308) do
 
   add_index "github_issues", ["assigned_github_user_id"], name: "index_github_issues_on_assigned_github_user_id", using: :btree
   add_index "github_issues", ["github_user_id"], name: "index_github_issues_on_github_user_id", using: :btree
+  add_index "github_issues", ["issue_closed_at"], name: "index_github_issues_on_issue_closed_at", using: :btree
+  add_index "github_issues", ["issue_created_at"], name: "index_github_issues_on_issue_created_at", using: :btree
+  add_index "github_issues", ["issue_updated_at"], name: "index_github_issues_on_issue_updated_at", using: :btree
   add_index "github_issues", ["number"], name: "index_github_issues_on_number", using: :btree
   add_index "github_issues", ["repo"], name: "index_github_issues_on_repo", using: :btree
   add_index "github_issues", ["state"], name: "index_github_issues_on_state", using: :btree

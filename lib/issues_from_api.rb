@@ -7,8 +7,10 @@ class IssuesFromApi < Struct.new(:user)
     record.token = user.token
 
     UpdateGithubUsers.new(record, api, user.org).update
+    UpdatePullRequest.new(record, api).update
     
     record.save
+
   end
 
   def klass

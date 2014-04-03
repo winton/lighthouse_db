@@ -6,6 +6,7 @@ class LighthouseTicket < ActiveRecord::Base
   belongs_to :lighthouse_user
 
   has_many :lighthouse_events
+  has_one  :github_issue
 
   def namespace
     self.url.match(/\/\/([^\.]+)/)[1] rescue nil

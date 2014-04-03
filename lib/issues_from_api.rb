@@ -3,14 +3,7 @@ class IssuesFromApi < Struct.new(:user)
   include RecordsFromApi
 
   def create(api, record, api_record)
-    record       = IssueFromApi.new(record, api_record).update
-    record.token = user.token
-
-    UpdateGithubUsers.new(record, api, user.org).update
-    UpdatePullRequest.new(record, api).update
-    
-    record.save
-
+    IssueFromApi.new(api, api_record, record, user).update
   end
 
   def klass

@@ -4,7 +4,7 @@ describe TicketsFromApi do
 
   let(:lh_user) { FactoryGirl.create(:lighthouse_user) }
 
-  subject { TicketsFromApi.new(6296, lh_user) }
+  subject { TicketsFromApi.new(lh_user) }
 
   describe "#hash_by_numbers" do
 

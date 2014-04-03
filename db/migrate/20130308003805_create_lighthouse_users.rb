@@ -5,6 +5,7 @@ class CreateLighthouseUsers < ActiveRecord::Migration
       t.string  :name
       t.string  :namespace
       t.string  :token
+      t.integer :project_id
       t.integer :lighthouse_id
 
       t.timestamps

@@ -13,9 +13,9 @@ class Lighthouse < Api
     @http.headers['X-LighthouseToken'] = @token
   end
 
-  def recently_updated_tickets(project_id, page=1, limit=100)
+  def recently_updated_tickets(page=1, limit=100)
     response = @http.get(
-      "/projects/#{project_id}/tickets.json",
+      "/projects/#{@user.project_id}/tickets.json",
       limit: limit,
       page:  page,
       q:     'sort:updated'
@@ -24,8 +24,8 @@ class Lighthouse < Api
     parse_response(response)[:tickets].collect { |t| t[:ticket] }
   end
 
-  def ticket(project_id, ticket_id)
-    response = @http.get("/projects/#{project_id}/tickets/#{ticket_id}.json").body
+  def ticket(ticket_id)
+    response = @http.get("/projects/#{@user.project_id}/tickets/#{ticket_id}.json").body
     parse_response(response)[:ticket]
   end
 

@@ -1,4 +1,4 @@
-class UpdateLighthouseEvents < Struct.new(:ticket, :api, :project_id)
+class UpdateLighthouseEvents < Struct.new(:ticket, :api)
 
   def create_lighthouse_event_from_version(event_type, version)
     event = LighthouseEvent.new(
@@ -19,7 +19,7 @@ class UpdateLighthouseEvents < Struct.new(:ticket, :api, :project_id)
   def update
     ticket.lighthouse_events.delete_all
     
-    api.ticket(project_id, ticket.number)[:versions][1..-1].each do |version|
+    api.ticket(ticket.number)[:versions][1..-1].each do |version|
       if version[:body]
         create_lighthouse_event_from_version(:body, version)
       end

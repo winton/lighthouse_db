@@ -1,6 +1,13 @@
-class IssueFromApi < Struct.new(:record, :api_record)
+class IssueFromApi < Struct.new(:api, :api_record, :record, :user)
 
   include RecordFromApi
+
+  def after_assign
+    UpdateGithubUsers.new(record, api, user.org).update
+    UpdatePullRequest.new(record, api).update
+    UpdateIssueRelationships.new(record, api).update
+    record.save
+  end
 
   def klass
     GithubIssue

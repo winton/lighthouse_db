@@ -8,7 +8,7 @@ describe LighthouseTicket do
 
     it "should determine if a ticket needs to be updated" do
       VCR.use_cassette('lighthouse') do
-        api_ticket = Lighthouse.new(lh_user).recently_updated_tickets(6296, 1, 1).first
+        api_ticket = Lighthouse.new(lh_user).recently_updated_tickets(1, 1).first
         updated_at = Time.parse(api_ticket[:updated_at])
         ticket     = LighthouseTicket.create!(ticket_updated_at: updated_at)
 

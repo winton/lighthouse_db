@@ -15,6 +15,7 @@ class CreateGithubIssues < ActiveRecord::Migration
       
       t.integer :assigned_github_user_id
       t.integer :github_user_id
+      t.integer :lighthouse_ticket_id
 
       t.datetime :issue_created_at
       t.datetime :issue_updated_at

@@ -1,16 +1,9 @@
-class TicketsFromApi < Struct.new(:project_id, :user)
+class TicketsFromApi < Struct.new(:user)
 
   include RecordsFromApi
 
   def create(api, record, api_record)
-    record       = TicketFromApi.new(record, api_record).update
-    record.token = user.token
-
-    UpdateLighthouseUsers.new(record, api, record.namespace).update
-    
-    record.save
-
-    UpdateLighthouseEvents.new(record, api, project_id).update
+    TicketFromApi.new(api, api_record, record, user).update
   end
 
   def klass
@@ -20,7 +13,7 @@ class TicketsFromApi < Struct.new(:project_id, :user)
   def recently_updated(page, limit)
     [
       api = Lighthouse.new(user),
-      api.recently_updated_tickets(project_id, page, limit)
+      api.recently_updated_tickets(page, limit)
     ]
   end
 end

@@ -14,7 +14,7 @@ describe Lighthouse do
 
   it "should retrieve a list of recently updated tickets" do
     VCR.use_cassette('lighthouse') do
-      tickets = Lighthouse.new(lh_user).recently_updated_tickets(6296, 1, 10)
+      tickets = Lighthouse.new(lh_user).recently_updated_tickets(1, 10)
       
       tickets.should        be_an(Array)
       tickets.length.should eq(10)

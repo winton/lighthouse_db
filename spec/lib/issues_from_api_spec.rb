@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe IssuesFromApi do
 
-  let(:user) { FactoryGirl.create(:github_user) }
+  let!(:lh_user) { FactoryGirl.create(:lighthouse_user) }
+  let(:user)     { FactoryGirl.create(:github_user) }
 
   subject { IssuesFromApi.new(user) }
 

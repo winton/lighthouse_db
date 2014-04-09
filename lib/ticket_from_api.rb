@@ -15,7 +15,7 @@ class TicketFromApi < Struct.new(:api, :api_record, :record, :user)
   def to_attributes(t)
     {
       assigned_lighthouse_id: t[:assigned_user_id],
-      body:                   t[:original_body_html],
+      body:                   (t[:original_body_html][0..40959] rescue nil),
       lighthouse_id:          t[:creator_id],
       milestone:              t[:milestone_title],
       number:                 t[:number],
@@ -32,9 +32,11 @@ class TicketFromApi < Struct.new(:api, :api_record, :record, :user)
       user       = LighthouseUser.token_user
       api        = Lighthouse.new(user)
       api_record = api.ticket(ticket_id)
-      record     = LighthouseTicket.where(number: ticket_id).first
 
-      self.new(api, api_record, record, user).update
+      if api_record
+        record = LighthouseTicket.where(number: ticket_id).first
+        self.new(api, api_record, record, user).update
+      end
     end
   end
 end

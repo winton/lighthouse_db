@@ -3,7 +3,7 @@ class UpdateLighthouseEvents < Struct.new(:ticket, :api)
   def create_lighthouse_event_from_version(event_type, version)
     event = LighthouseEvent.new(
       event:       event_type,
-      body:        version[:body],
+      body:        (version[:body][0..40959] rescue nil),
       milestone:   version[:milestone_title],
       state:       version[:state],
       happened_at: version[:created_at],

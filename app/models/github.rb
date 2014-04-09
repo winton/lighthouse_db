@@ -25,7 +25,8 @@ class Github < Api
       filter:   "all",
       page:     page,
       per_page: per_page,
-      sort:     "updated"
+      sort:     "updated",
+      state:    "all"
     ).body
 
     parse_response(response)

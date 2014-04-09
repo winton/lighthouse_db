@@ -20,7 +20,9 @@ http://cl.ly/image/2y0p0w0B0Q2V
 [Set up the Lighthouse user](http://127.0.0.1:3000/admin/lighthouse_users/new)
 
     rails c
+    ActiveRecord::Base.logger = Logger.new File.open('log/development.log', 'a')
     TicketsFromApi.new(LighthouseUser.token_user).update
+    IssuesFromApi.new(GithubUser.token_user).update
 
 Subsequent runs will only download newly updated tickets.
 

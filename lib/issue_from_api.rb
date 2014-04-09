@@ -27,7 +27,7 @@ class IssueFromApi < Struct.new(:api, :api_record, :record, :user)
       state:                 i[:state],
       title:                 i[:title],
       url:                   i[:html_url],
-      body:                  i[:body],
+      body:                  (i[:body][0..40959] rescue nil),
       issue_created_at:      i[:created_at],
       issue_updated_at:      i[:updated_at],
       issue_closed_at:       i[:closed_at]

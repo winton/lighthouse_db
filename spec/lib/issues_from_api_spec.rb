@@ -5,6 +5,8 @@ describe IssuesFromApi do
   let!(:lh_user) { FactoryGirl.create(:lighthouse_user) }
   let(:user)     { FactoryGirl.create(:github_user) }
 
+  let(:api) { Github.new(user) }
+
   subject { IssuesFromApi.new(user) }
 
   describe "#update" do
@@ -13,13 +15,16 @@ describe IssuesFromApi do
 
       VCR.use_cassette('github') do
 
+        results  = api.recently_updated_issues(1, 10)
+        results += api.recently_updated_issues(2, 10)
+
         subject.should_receive(:update).with(1, 10).and_call_original
         subject.should_receive(:update).with(2, 10).and_call_original
         subject.should_receive(:update).with(3, 10)
         subject.update(1, 10)
 
         issues = GithubIssue.all
-        issues.length.should eq(20)
+        issues.length.should eq(results.collect { |r| [ r[:html_url] ] }.uniq.length)
 
         issues.each do |issue|
           issue.number.should be_a(Fixnum)
@@ -27,7 +32,6 @@ describe IssuesFromApi do
           issue.state.should  be_a(String)
           issue.title.should  be_a(String)
           issue.url.should    be_a(String)
-          issue.body.should   be_a(String)
           issue.commits.should        be_a(Fixnum)
           issue.file_additions.should be_a(Fixnum)
           issue.file_deletions.should be_a(Fixnum)

@@ -6,7 +6,7 @@ class CreateLighthouseTickets < ActiveRecord::Migration
       t.string  :state
       t.string  :title
       t.string  :url,  limit: 256
-      t.string  :body, limit: 20480
+      t.string  :body, limit: 40960
 
       t.integer :assigned_lighthouse_user_id
       t.integer :lighthouse_user_id

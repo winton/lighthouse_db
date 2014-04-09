@@ -2,7 +2,7 @@ class CreateLighthouseEvents < ActiveRecord::Migration
   def change
     create_table :lighthouse_events do |t|
       t.string   :event
-      t.string   :body, limit: 20480
+      t.string   :body, limit: 40960
       t.string   :milestone
       t.string   :state
       t.integer  :assigned_lighthouse_user_id

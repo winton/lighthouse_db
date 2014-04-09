@@ -2,10 +2,12 @@ class UpdatePullRequest < Struct.new(:record, :api)
 
   def update
     url  = record.pull_request[:url]
-    path = url.match(/.+\.com(.+)/)[1]
+    path = url.match(/.+\.com(.+)/)[1] rescue nil
 
-    update_files(path)
-    update_merged(path)
+    if path
+      update_files(path)
+      update_merged(path)
+    end
   end
 
   def update_files(path)

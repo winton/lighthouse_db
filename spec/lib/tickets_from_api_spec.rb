@@ -6,19 +6,19 @@ describe TicketsFromApi do
 
   subject { TicketsFromApi.new(lh_user) }
 
-  describe "#hash_by_numbers" do
+  describe "#hash_by_url" do
 
-    it "should create a hash of tickets by ticket number" do
+    it "should create a hash of tickets by ticket url" do
       hash = (0..9).inject({}) do |hash, number|
-        hash[number] = LighthouseTicket.create!(number: number)
+        hash[number.to_s] = LighthouseTicket.create!(url: number.to_s)
         hash
       end
 
       tickets = (0..9).collect do |number|
-        { :number => number }
+        { :url => number.to_s }
       end
 
-      subject.hash_by_number(tickets).should eq(hash)
+      subject.hash_by_url(tickets).should eq(hash)
     end
   end
 

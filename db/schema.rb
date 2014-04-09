@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20140401190308) do
     t.string   "state"
     t.string   "title"
     t.string   "url",                     limit: 256
-    t.string   "body",                    limit: 20480
+    t.string   "body",                    limit: 40960
     t.integer  "commits",                               default: 0
     t.integer  "file_additions",                        default: 0
     t.integer  "file_deletions",                        default: 0
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20140401190308) do
 
   create_table "lighthouse_events", force: true do |t|
     t.string   "event"
-    t.string   "body",                        limit: 20480
+    t.string   "body",                        limit: 40960
     t.string   "milestone"
     t.string   "state"
     t.integer  "assigned_lighthouse_user_id"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20140401190308) do
     t.string   "state"
     t.string   "title"
     t.string   "url",                         limit: 256
-    t.string   "body",                        limit: 20480
+    t.string   "body",                        limit: 40960
     t.integer  "assigned_lighthouse_user_id"
     t.integer  "lighthouse_user_id"
     t.datetime "ticket_created_at"

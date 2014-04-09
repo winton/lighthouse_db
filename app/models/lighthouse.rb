@@ -26,7 +26,7 @@ class Lighthouse < Api
 
   def ticket(ticket_id)
     response = @http.get("/projects/#{@user.project_id}/tickets/#{ticket_id}.json").body
-    parse_response(response)[:ticket]
+    parse_response(response)[:ticket] rescue nil
   end
 
   def user(user=nil)

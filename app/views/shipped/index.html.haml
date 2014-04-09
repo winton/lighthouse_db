@@ -1,0 +1,27 @@
+= stylesheet_link_tag    "shipped", media: "all"
+= javascript_include_tag "shipped"
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Commits
+      %th File Additions
+      %th File Deletions
+      %th File Changes
+      %th Merged
+      %th Name
+      %th Login
+
+  %tbody
+    - @issues.each do |issue|
+      %tr
+        %td
+          %a{ href: issue.url }= issue.title
+        %td= issue.commits
+        %td= issue.file_additions
+        %td= issue.file_deletions
+        %td= issue.file_changes
+        %td= issue.merged
+        %td= issue.github_user.name
+        %td= issue.github_user.login

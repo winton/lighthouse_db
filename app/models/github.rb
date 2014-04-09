@@ -9,14 +9,19 @@ class Github < Api
     @http.headers['Authorization'] = "token #{@user.token}"
   end
 
-  def pull_request_merged(pull_request_path)
-    response = @http.get("#{pull_request_path}/merge").status
-    response == 204
+  def pull_request_commits(pull_request_path)
+    response = @http.get("#{pull_request_path}/commits").body
+    parse_response(response)
   end
 
   def pull_request_files(pull_request_path)
     response = @http.get("#{pull_request_path}/files").body
     parse_response(response)
+  end
+
+  def pull_request_merged(pull_request_path)
+    response = @http.get("#{pull_request_path}/merge").status
+    response == 204
   end
 
   def recently_updated_issues(page=1, per_page=100)

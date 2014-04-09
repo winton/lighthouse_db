@@ -8,6 +8,7 @@ class CreateGithubIssues < ActiveRecord::Migration
       t.string  :url,  limit: 256
       t.string  :body, limit: 40960
       t.integer :commits,        default: 0
+      t.integer :files,          default: 0
       t.integer :file_additions, default: 0
       t.integer :file_deletions, default: 0
       t.integer :file_changes,   default: 0

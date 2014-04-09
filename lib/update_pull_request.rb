@@ -11,8 +11,11 @@ class UpdatePullRequest < Struct.new(:record, :api)
   end
 
   def update_files(path)
-    files = api.pull_request_files(path)
-    record.commits += files.length
+    commits = api.pull_request_commits(path)
+    files   = api.pull_request_files(path)
+
+    record.commits = commits.length
+    record.files   = files.length
 
     files.each do |file|
       record.file_additions += file[:additions]

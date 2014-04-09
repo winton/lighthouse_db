@@ -25,7 +25,7 @@ class ShippedController < ApplicationController
     # end
 
     @issues = GithubIssue.
-      # where("issue_updated_at > ?", start).
+      where("issue_updated_at > ?", start).
       where(state: "closed").
       order('commits desc')
 

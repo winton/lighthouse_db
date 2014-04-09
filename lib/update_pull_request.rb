@@ -18,6 +18,8 @@ class UpdatePullRequest < Struct.new(:record, :api)
     record.files   = files.length
 
     files.each do |file|
+      next if file[:filename][0..6] == "vendor/"
+      
       record.file_additions += file[:additions]
       record.file_deletions += file[:deletions]
       record.file_changes   += file[:changes]

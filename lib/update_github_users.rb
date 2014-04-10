@@ -15,7 +15,7 @@ class UpdateGithubUsers < Struct.new(:obj, :api, :org)
 
     obj.github_issue_statuses.each do |status|
       if status.respond_to?(:github_user=)
-        obj.github_user = create_user(status.github_login)
+        status.github_user = create_user(status.github_login)
       end
     end
   end

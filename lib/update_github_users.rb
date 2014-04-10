@@ -1,22 +1,18 @@
 class UpdateGithubUsers < Struct.new(:obj, :api, :org)
 
   def update
-    if obj.respond_to?(:assigned_github_user=)
-      obj.assigned_github_user = create_user(obj.assigned_github_login)
-    end
-
-    if obj.respond_to?(:github_user=)
-      obj.github_user = create_user(obj.github_login)
-    end
-
-    if obj.respond_to?(:merged_github_user=)
-      obj.merged_github_user = create_user(obj.merged_github_login)
-    end
+    assign_user(obj, :assigned_github_user=, obj.assigned_github_login)
+    assign_user(obj, :github_user=,          obj.github_login)
+    assign_user(obj, :merged_github_user=,   obj.merged_github_login)
 
     obj.github_issue_statuses.each do |status|
-      if status.respond_to?(:github_user=)
-        status.github_user = create_user(status.github_login)
-      end
+      assign_user(status, :github_user=, status.github_login)
+    end
+  end
+
+  def assign_user(record, to, from)
+    if record.respond_to?(to)
+      record.send(to, create_user(from))
     end
   end
 

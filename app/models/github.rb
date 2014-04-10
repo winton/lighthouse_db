@@ -9,6 +9,11 @@ class Github < Api
     @http.headers['Authorization'] = "token #{@user.token}"
   end
 
+  def pull_request(pull_request_path)
+    response = @http.get(pull_request_path).body
+    parse_response(response)
+  end
+
   def pull_request_commits(pull_request_path)
     response = @http.get("#{pull_request_path}/commits").body
     parse_response(response)
@@ -34,6 +39,11 @@ class Github < Api
       state:    "all"
     ).body
 
+    parse_response(response)
+  end
+
+  def ref_statuses(url)
+    response = @http.get(url).body
     parse_response(response)
   end
 

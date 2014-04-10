@@ -7,16 +7,18 @@ class CreateGithubIssues < ActiveRecord::Migration
       t.string  :title
       t.string  :url,  limit: 256
       t.string  :body, limit: 40960
-      t.integer :commits,        default: 0
-      t.integer :files,          default: 0
-      t.integer :file_additions, default: 0
-      t.integer :file_deletions, default: 0
-      t.integer :file_changes,   default: 0
+      t.integer :comments,        default: 0
+      t.integer :review_comments, default: 0
+      t.integer :commits,         default: 0
+      t.integer :files,           default: 0
+      t.integer :file_additions,  default: 0
+      t.integer :file_deletions,  default: 0
       t.boolean :merged
       
       t.integer :assigned_github_user_id
       t.integer :github_user_id
       t.integer :lighthouse_ticket_id
+      t.integer :merged_github_user_id
 
       t.datetime :issue_created_at
       t.datetime :issue_updated_at
@@ -31,6 +33,8 @@ class CreateGithubIssues < ActiveRecord::Migration
 
       t.index :assigned_github_user_id
       t.index :github_user_id
+      t.index :lighthouse_ticket_id
+      t.index :merged_github_user_id
 
       t.index :issue_created_at
       t.index :issue_updated_at

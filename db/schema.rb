@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401190308) do
+ActiveRecord::Schema.define(version: 20140409194014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,27 @@ ActiveRecord::Schema.define(version: 20140401190308) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
+  create_table "github_issue_statuses", force: true do |t|
+    t.string   "description"
+    t.integer  "number"
+    t.string   "state"
+    t.string   "target_url"
+    t.string   "url"
+    t.integer  "github_issue_id"
+    t.integer  "github_user_id"
+    t.datetime "status_created_at"
+    t.datetime "status_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "github_issue_statuses", ["github_issue_id"], name: "index_github_issue_statuses_on_github_issue_id", using: :btree
+  add_index "github_issue_statuses", ["github_user_id"], name: "index_github_issue_statuses_on_github_user_id", using: :btree
+  add_index "github_issue_statuses", ["number"], name: "index_github_issue_statuses_on_number", using: :btree
+  add_index "github_issue_statuses", ["state"], name: "index_github_issue_statuses_on_state", using: :btree
+  add_index "github_issue_statuses", ["status_created_at"], name: "index_github_issue_statuses_on_status_created_at", using: :btree
+  add_index "github_issue_statuses", ["status_updated_at"], name: "index_github_issue_statuses_on_status_updated_at", using: :btree
+
   create_table "github_issues", force: true do |t|
     t.integer  "number"
     t.string   "repo"
@@ -38,15 +59,17 @@ ActiveRecord::Schema.define(version: 20140401190308) do
     t.string   "title"
     t.string   "url",                     limit: 256
     t.string   "body",                    limit: 40960
+    t.integer  "comments",                              default: 0
+    t.integer  "review_comments",                       default: 0
     t.integer  "commits",                               default: 0
     t.integer  "files",                                 default: 0
     t.integer  "file_additions",                        default: 0
     t.integer  "file_deletions",                        default: 0
-    t.integer  "file_changes",                          default: 0
     t.boolean  "merged"
     t.integer  "assigned_github_user_id"
     t.integer  "github_user_id"
     t.integer  "lighthouse_ticket_id"
+    t.integer  "merged_github_user_id"
     t.datetime "issue_created_at"
     t.datetime "issue_updated_at"
     t.datetime "issue_closed_at"
@@ -59,6 +82,8 @@ ActiveRecord::Schema.define(version: 20140401190308) do
   add_index "github_issues", ["issue_closed_at"], name: "index_github_issues_on_issue_closed_at", using: :btree
   add_index "github_issues", ["issue_created_at"], name: "index_github_issues_on_issue_created_at", using: :btree
   add_index "github_issues", ["issue_updated_at"], name: "index_github_issues_on_issue_updated_at", using: :btree
+  add_index "github_issues", ["lighthouse_ticket_id"], name: "index_github_issues_on_lighthouse_ticket_id", using: :btree
+  add_index "github_issues", ["merged_github_user_id"], name: "index_github_issues_on_merged_github_user_id", using: :btree
   add_index "github_issues", ["number"], name: "index_github_issues_on_number", using: :btree
   add_index "github_issues", ["repo"], name: "index_github_issues_on_repo", using: :btree
   add_index "github_issues", ["state"], name: "index_github_issues_on_state", using: :btree

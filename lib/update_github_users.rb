@@ -8,6 +8,16 @@ class UpdateGithubUsers < Struct.new(:obj, :api, :org)
     if obj.respond_to?(:github_user=)
       obj.github_user = create_user(obj.github_login)
     end
+
+    if obj.respond_to?(:merged_github_user=)
+      obj.merged_github_user = create_user(obj.merged_github_login)
+    end
+
+    obj.github_issue_statuses.each do |status|
+      if status.respond_to?(:github_user=)
+        obj.github_user = create_user(status.github_login)
+      end
+    end
   end
 
   def create_user(login)

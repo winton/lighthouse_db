@@ -26,7 +26,7 @@ class ShippedController < ApplicationController
 
     @issues = GithubIssue.
       where("issue_updated_at > ?", start).
-      where(state: "closed").
+      where(state: "closed", merged: true).
       order('commits desc')
 
     puts @issues.inspect

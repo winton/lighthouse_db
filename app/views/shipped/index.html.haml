@@ -6,10 +6,13 @@
     %tr
       %th Title
       %th Commits
+      %th Comments
+      %th Review Comments
       %th File Additions
       %th File Deletions
       %th File Changes
       %th Merged
+      %th QA State Changes
       %th Name
       %th Login
 
@@ -19,9 +22,12 @@
         %td
           %a{ href: issue.url }= issue.title
         %td= issue.commits
+        %td= issue.comments
+        %td= issue.review_comments
         %td= issue.file_additions
         %td= issue.file_deletions
         %td= issue.file_changes
         %td= issue.merged
+        %td= (issue.lighthouse_ticket.lighthouse_events.where(event: 'state', state: 'pending-qa').count rescue 0)
         %td= issue.github_user.name
         %td= issue.github_user.login

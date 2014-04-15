@@ -14,6 +14,8 @@ class UpdatePullRequest < Struct.new(:record, :api)
       update_merged
       update_statuses
     end
+
+    record.statuses ||= []
   end
 
   def update_comments

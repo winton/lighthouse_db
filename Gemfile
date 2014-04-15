@@ -45,10 +45,12 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'aescrypt'
 gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'excon'
 gem 'faraday', '< 0.9.0'
+gem 'selenium-webdriver'
 
 gem 'unicorn-rails', group: :development
 gem "codeclimate-test-reporter", group: :test, require: nil

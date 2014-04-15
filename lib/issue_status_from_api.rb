@@ -14,7 +14,7 @@ class IssueStatusFromApi < Struct.new(:status)
       state:        status[:state],
       target_url:   status[:target_url],
       url:          status[:url],
-      
+
       github_login: (status[:creator][:login] rescue nil),
 
       status_created_at: status[:created_at],

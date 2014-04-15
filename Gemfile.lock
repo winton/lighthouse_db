@@ -43,6 +43,7 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
+    aescrypt (1.0.0)
     arbre (1.0.1)
       activesupport (>= 3.0.0)
     arel (4.0.2)
@@ -58,6 +59,8 @@ GEM
       sass (>= 3.2.0)
       thor
     builder (3.1.4)
+    childprocess (0.5.2)
+      ffi (~> 1.0, >= 1.0.11)
     codeclimate-test-reporter (0.3.0)
       simplecov (>= 0.7.1, < 1.0.0)
     coffee-rails (4.0.1)
@@ -85,6 +88,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
+    ffi (1.9.3)
     formtastic (2.3.0.rc2)
       actionpack (>= 3.0)
     haml (4.0.5)
@@ -176,6 +180,7 @@ GEM
       rspec-mocks (= 3.0.0.beta2)
       rspec-support (= 3.0.0.beta2)
     rspec-support (3.0.0.beta2)
+    rubyzip (1.1.3)
     sass (3.2.18)
     sass-rails (4.0.2)
       railties (>= 4.0.0, < 5.0)
@@ -185,6 +190,11 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    selenium-webdriver (2.41.0)
+      childprocess (>= 0.5.0)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0.4)
     simplecov (0.8.2)
       docile (~> 1.1.0)
       multi_json
@@ -223,12 +233,14 @@ GEM
     vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
+    websocket (1.0.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activeadmin!
+  aescrypt
   aws-sdk
   bootstrap-sass
   codeclimate-test-reporter
@@ -245,6 +257,7 @@ DEPENDENCIES
   rspec-rails (~> 3.0.0.beta)
   sass-rails (~> 4.0.2)
   sdoc
+  selenium-webdriver
   turbolinks
   uglifier (>= 1.3.0)
   unicorn-rails

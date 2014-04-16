@@ -20,3 +20,6 @@
 
 # Database YAML
 /config/database.yml
+
+# Teams
+config/teams.yml

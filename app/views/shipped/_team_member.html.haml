@@ -1,0 +1,10 @@
+%br
+%b
+  %a.team{ href: "#" }= team
+- users.each do |user|
+  %br
+  .checkbox
+    %label
+      %input{ type: "checkbox", name: "logins[#{user.login}]", checked: params[:logins].try(:[], user.login) }/
+      = user.formatted_name
+%br

@@ -1,6 +1,24 @@
 = stylesheet_link_tag    "shipped", media: "all"
 = javascript_include_tag "shipped"
 
+%form.form-inline{ role: "form" }
+  .row
+    .col-md-4{ style: "float:right" }
+      %button.btn.btn-primary{ type: "submit" } Search
+      %button.btn.btn-default#select-all{ type: "button" } Select All
+      %button.btn.btn-default#deselect-all{ type: "button" } Deselect All
+    .col-md-4{ style: "float:right" }
+      #datepicker.input-daterange.input-group
+        %input.input-sm.form-control{ name: "start", type: "text", value: @start.strftime("%m/%d/%Y") }/
+        %span.input-group-addon to
+        %input.input-sm.form-control{ name: "end", type: "text", value: @end.strftime("%m/%d/%Y") }/
+  %br
+  .row#teams
+    - @users_by_team.in_groups_of(4).each do |teams|
+      - teams.each do |(team, users)|
+        .col-md-2
+          = render partial: 'team_member', locals: { team: team, users: users }
+
 %table.table.table-striped
   %thead
     %tr

@@ -1,6 +1,7 @@
 class CreateGithubUsers < ActiveRecord::Migration
   def change
     create_table :github_users do |t|
+      t.string  :team
       t.string  :login
       t.string  :name
       t.string  :org

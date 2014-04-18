@@ -3,11 +3,12 @@
 
 %form.form-inline{ role: "form" }
   .row
-    .col-md-4{ style: "float:right" }
-      %button.btn.btn-primary{ type: "submit" } Search
+    .col-md-4{ style: "float:right; text-align:right; margin-top:17px" }
       %button.btn.btn-default#select-all{ type: "button" } Select All
       %button.btn.btn-default#deselect-all{ type: "button" } Deselect All
-    .col-md-4{ style: "float:right" }
+    .col-md-4
+      %b Date Range
+      %button.btn-sm.btn-primary{ type: "submit", style: "float:right; margin:19px 0 0 5px" } Submit
       #datepicker.input-daterange.input-group
         %input.input-sm.form-control{ name: "start", type: "text", value: @start.strftime("%m/%d/%Y") }/
         %span.input-group-addon to

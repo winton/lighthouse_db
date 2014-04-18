@@ -15,8 +15,13 @@ class ShippedController < ApplicationController
     @issues = GithubIssue.
       where("issue_updated_at > ?", @start).
       where(state: "closed", merged: true).
-      includes(:github_user).
       order('commits desc')
+
+    if params[:logins]
+      @issues = @issues.
+        joins(:github_user).
+        where(github_users: { login: params[:logins].keys })
+    end
 
     @users_by_team = GithubUser.group_by_team
   end

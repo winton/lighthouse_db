@@ -17,4 +17,8 @@ class GithubIssue < ActiveRecord::Base
   def needs_update?(issue)
     issue_updated_at != Time.parse(issue[:updated_at])
   end
+
+  def title_without_long_words
+    self.title.gsub(/[^\s]{40,}(\s|\z)/) { |s| s[0..39] + "... " }
+  end
 end

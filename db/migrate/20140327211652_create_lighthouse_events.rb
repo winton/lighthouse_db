@@ -7,6 +7,7 @@ class CreateLighthouseEvents < ActiveRecord::Migration
       t.string   :state
       t.integer  :assigned_lighthouse_user_id
       t.integer  :lighthouse_ticket_id
+      t.integer  :lighthouse_user_id
       t.datetime :happened_at
       t.timestamps
 

@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20140410190355) do
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "team"
   end
 
   add_index "github_users", ["login"], name: "index_github_users_on_login", using: :btree
@@ -117,6 +118,7 @@ ActiveRecord::Schema.define(version: 20140410190355) do
     t.string   "state"
     t.integer  "assigned_lighthouse_user_id"
     t.integer  "lighthouse_ticket_id"
+    t.integer  "lighthouse_user_id"
     t.datetime "happened_at"
     t.datetime "created_at"
     t.datetime "updated_at"

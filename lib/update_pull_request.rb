@@ -3,6 +3,9 @@ class UpdatePullRequest < Struct.new(:record, :api)
   attr_accessor :pull_request
 
   def update
+    record.statuses = []
+    return unless record.pull_request
+    
     url  = record.pull_request[:url]
     path = url.match(/.+\.com(.+)/)[1] rescue nil
 
@@ -14,8 +17,6 @@ class UpdatePullRequest < Struct.new(:record, :api)
       update_merged
       update_statuses
     end
-
-    record.statuses ||= []
   end
 
   def update_comments

@@ -8,6 +8,7 @@ class UpdateLighthouseEvents < Struct.new(:ticket, :api)
       state:       version[:state],
       happened_at: version[:created_at],
       assigned_lighthouse_id: version[:assigned_user_id],
+      lighthouse_id:          version[:user_id],
       lighthouse_ticket_id:   ticket.id
     )
 

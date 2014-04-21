@@ -39,7 +39,7 @@
     - @issues.each do |issue|
       %tr
         %td
-          %a{ href: issue.url }= issue.title
+          %a{ href: issue.url }= issue.title_without_long_words
         %td= issue.commits
         %td= issue.comments
         %td= issue.review_comments
@@ -50,3 +50,20 @@
         %td= (issue.lighthouse_ticket.lighthouse_events.where(event: 'state', state: 'pending-qa').count rescue 0)
         %td= issue.github_user.name
         %td= issue.github_user.login
+
+#code_reviews{ style: "width:100%; height:400px;" }
+:coffee
+  $('#code_reviews').highcharts(
+    chart: type: 'bar'
+    legend: enabled: false
+    title: text: 'Code Reviews'
+    xAxis:
+      categories: #{ @code_review_names.to_json }
+    yAxis:
+      allowDecimals: false
+      title: text: 'Tickets'
+    series: [{
+      name: "Code Reviews"
+      data: #{ @code_review_counts.to_json }
+    }]
+  )

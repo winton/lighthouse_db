@@ -7,6 +7,9 @@ class ShippedController < ApplicationController
     code_review_names
     code_review_counts
     users_by_team
+    qa_state_changes
+    @time_to_review = time_from_state('pending-review', 'pending-qa')
+    @time_to_qa = time_from_state('pending-qa', 'pending-approval')
   end
 
   private
@@ -65,5 +68,43 @@ class ShippedController < ApplicationController
 
   def users_by_team
     @users_by_team = GithubUser.group_by_team
+  end
+
+  def qa_state_changes
+    @qa_state_changes = (@start..@end).collect do |date|
+      changes = LighthouseEvent.
+        where("DATE(happened_at) = ?", date).
+        where(event: 'state', state: 'pending-qa').
+        group(:lighthouse_ticket_id).
+        count
+      total = changes.inject(0) do |num, (key, val)|
+        num + val
+      end
+      avg = total.to_f / changes.keys.length
+      avg.nan? ? 0 : avg
+    end
+  end
+
+  def time_from_state(from, to)
+    (@start..@end).collect do |date|
+      events = LighthouseEvent.
+        where("DATE(happened_at) = ?", date).
+        where(event: 'state', state: [ from, to ]).
+        order(:happened_at)
+
+      count   = 0
+      seconds = 0
+      
+      events.each_with_index do |event, i|
+        next unless next_event = events[i + 1]
+        if event.state == from && next_event.state == to
+          count   += 1
+          seconds += next_event.happened_at - event.happened_at
+        end
+      end
+
+      avg = seconds.to_f / 60 / count
+      avg.nan? ? 0 : avg
+    end
   end
 end

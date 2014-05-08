@@ -67,3 +67,54 @@
       data: #{ @code_review_counts.to_json }
     }]
   )
+
+#qa_state_changes{ style: "width:100%; height:400px;" }
+:coffee
+  $('#qa_state_changes').highcharts(
+    title: text: 'Avg QA State Changes Per Ticket'
+    legend: enabled: false
+    xAxis:
+      type: 'datetime'
+    yAxis:
+      title: text: 'Avg QA State Changes'
+    series: [{
+      name: "Avg QA State Changes"
+      pointInterval: 24 * 3600 * 1000
+      pointStart: Date.UTC(#{@start.year}, #{@start.month-1}, #{@start.day})
+      data: #{@qa_state_changes.to_json}
+    }]
+  )
+
+#time_to_review{ style: "width:100%; height:400px;" }
+:coffee
+  $('#time_to_review').highcharts(
+    title: text: 'Avg Minutes to Review'
+    legend: enabled: false
+    xAxis:
+      type: 'datetime'
+    yAxis:
+      title: text: 'Avg Minutes to Review'
+    series: [{
+      name: "Avg Minutes"
+      pointInterval: 24 * 3600 * 1000
+      pointStart: Date.UTC(#{@start.year}, #{@start.month-1}, #{@start.day})
+      data: #{@time_to_review.to_json}
+    }]
+  )
+
+#time_to_qa{ style: "width:100%; height:400px;" }
+:coffee
+  $('#time_to_qa').highcharts(
+    title: text: 'Avg Minutes to QA'
+    legend: enabled: false
+    xAxis:
+      type: 'datetime'
+    yAxis:
+      title: text: 'Avg Minutes to QA'
+    series: [{
+      name: "Avg Minutes"
+      pointInterval: 24 * 3600 * 1000
+      pointStart: Date.UTC(#{@start.year}, #{@start.month-1}, #{@start.day})
+      data: #{@time_to_qa.to_json}
+    }]
+  )

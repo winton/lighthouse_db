@@ -97,13 +97,13 @@ ActiveRecord::Schema.define(version: 20140410190355) do
   add_index "github_issues", ["url"], name: "index_github_issues_on_url", using: :btree
 
   create_table "github_users", force: true do |t|
+    t.string   "team"
     t.string   "login"
     t.string   "name"
     t.string   "org"
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "team"
   end
 
   add_index "github_users", ["login"], name: "index_github_users_on_login", using: :btree

@@ -2,8 +2,8 @@
     "AWSEBDockerrunVersion": "1",
       "Volumes": [
             {
-                    "ContainerDirectory": "/rails",
-                          "HostDirectory": "/var/app"
+                    "ContainerDirectory": "/var/app1",
+                          "HostDirectory": "/var/app2"
                                 }
       ],
           "Logging": "/var/eb_log"

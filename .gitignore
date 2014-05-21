@@ -19,7 +19,7 @@
 /spec/fixtures
 
 # Database YAML
-/config/database.yml
+# /config/database.yml
 
 # Teams
 config/teams.yml

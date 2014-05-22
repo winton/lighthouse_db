@@ -37,4 +37,4 @@ RUN /bin/bash -l -c "bundle install"
 EXPOSE 80
 
 # Startup commands
-ENTRYPOINT /usr/bin/start-server
+ENTRYPOINT ["/usr/bin/start-server"]

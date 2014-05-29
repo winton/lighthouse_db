@@ -15,12 +15,12 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['RDS_DB_NAME'] %>
+  database: <%= ENV['DOCKERDB_DB_NAME'] %>
   pool: 5
-  username: <%= ENV['RDS_USERNAME'] %>
-  password: <%= ENV['RDS_PASSWORD'] %>
-  host: <%= ENV['RDS_HOSTNAME'] %>
-  port: <%= ENV['RDS_PORT'] %>
+  username: <%= ENV['DOCKERDB_USERNAME'] %>
+  password: <%= ENV['DOCKERDB_PASSWORD'] %>
+  host: <%= ENV['DOCKERDB_PORT_5432_TCP_ADDR'] %>
+  port: <%= ENV['DOCKERDB_PORT_5432_TCP_PORT'] %>
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have

@@ -32,9 +32,11 @@ WORKDIR /rails
 
 # bundle install
 RUN /bin/bash -l -c "bundle install"
+# RUN /bin/bash -l -c "rake db:migrate"
 
 # Publish port 80
 EXPOSE 80
 
 # Startup commands
 # ENTRYPOINT ["/usr/bin/start-server"]
+CMD ["/usr/bin/start-server"]

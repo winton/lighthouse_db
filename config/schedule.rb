@@ -20,8 +20,10 @@
 # Learn more: http://github.com/javan/whenever
 #
 
-set :output, "../log/cron_log.log"
+set :output, "./log/cron_log.log"
 
-every 1.hour do
-  runner "IssuesFromApi.new(GithubUser.token_user).update"
+set :job_template, 'export $(cat /.dockerenv | sed s/\"//g | sed "s/\,/ /g" | sed \'s/\(\[\|\]\)//g\') && /bin/bash -l -c \':job\''
+
+every 10.minutes do
+  runner "IssuesFromApi.new(GithubUser.token_user).update", :environment => ENV["RAILS_ENV"]
 end

@@ -51,6 +51,7 @@ gem 'haml-rails'
 gem 'excon'
 gem 'faraday', '< 0.9.0'
 gem 'selenium-webdriver'
+gem 'whenever', :require => false
 
 gem 'unicorn-rails', group: :development
 gem "codeclimate-test-reporter", group: :test, require: nil

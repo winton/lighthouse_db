@@ -24,6 +24,6 @@ set :output, "./log/cron_log.log"
 
 set :job_template, 'export $(cat /.dockerenv | sed s/\"//g | sed "s/\,/ /g" | sed \'s/\(\[\|\]\)//g\') && /bin/bash -l -c \':job\''
 
-every 10.minutes do
+every 1.hour do
   runner "IssuesFromApi.new(GithubUser.token_user).update", :environment => ENV["RAILS_ENV"]
 end

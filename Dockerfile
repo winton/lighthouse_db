@@ -1,5 +1,5 @@
 # FROM ubuntu
-FROM richardking/ubuntu-nginx-2.1.1
+FROM richardking/ubuntu-nginx-2.1.1-bundle
 
 # RUN apt-get update -q
 # RUN apt-get install -qy nginx

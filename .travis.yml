@@ -4,7 +4,7 @@ rvm:
 before_script:
 - cp config/database.example.yml config/database.yml
 - psql -c 'create database lighthouse_db_test;' -U postgres
-- rake vcr:download
+- bundle exec rake vcr:download
 env:
   global:
   - secure: N1LHszvh+Gm66YO4aQlY5XUrbwCp4UfzJZyxWAEOaYaQDV/O81i6f9NBoscEgsHf2KzQVVvIb1pOSzbiTKhXTpJSvBbiaXPDYcxtiZkrhTbUsg4CkVHDZPnAVcETdEMd4O2Sr51L3HhAykGakUqR+0tneD9TcXvh97kIkE4uCh8=

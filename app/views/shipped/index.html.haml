@@ -20,20 +20,29 @@
         .col-md-2
           = render partial: 'team_member', locals: { team: team, users: users }
 
+  %br
+  .row#states
+    .col-md-12
+      %b States
+    - @states.each do |state|
+      .col-md-2
+        .radio
+          %label
+            %input{ type: "checkbox", name: "state", id: state.state, value: state.state }/
+            = state.state
+
+%br
 %table.table.table-striped
   %thead
     %tr
       %th Title
       %th Commits
-      %th Comments
-      %th Review Comments
-      %th File Additions
-      %th File Deletions
       %th File Changes
       %th Merged
-      %th QA State Changes
+      %th State
+      %th Review Time
+      %th QA Time
       %th Name
-      %th Login
 
   %tbody
     - @issues.each do |issue|
@@ -41,15 +50,12 @@
         %td
           %a{ href: issue.url }= issue.title_without_long_words
         %td= issue.commits
-        %td= issue.comments
-        %td= issue.review_comments
-        %td= issue.file_additions
-        %td= issue.file_deletions
         %td= issue.file_changes
         %td= issue.merged
-        %td= (issue.lighthouse_ticket.lighthouse_events.where(event: 'state', state: 'pending-qa').count rescue 0)
-        %td= issue.github_user.name
-        %td= issue.github_user.login
+        %td.state.nowrap= (issue.lighthouse_ticket.state rescue '')
+        %td.nowrap= time_in_words((issue.lighthouse_ticket.time_in_review rescue 0))
+        %td.nowrap= time_in_words((issue.lighthouse_ticket.time_in_qa rescue 0))
+        %td= issue.github_user.name || issue.github_user.login
 
 #code_reviews{ style: "width:100%; height:400px;" }
 :coffee
@@ -74,6 +80,7 @@
     title: text: 'Avg QA State Changes Per Ticket'
     legend: enabled: false
     xAxis:
+      minTickInterval: 24 * 3600 * 1000
       type: 'datetime'
     yAxis:
       title: text: 'Avg QA State Changes'
@@ -88,14 +95,15 @@
 #time_to_review{ style: "width:100%; height:400px;" }
 :coffee
   $('#time_to_review').highcharts(
-    title: text: 'Avg Minutes to Review'
+    title: text: 'Avg Hours to Review'
     legend: enabled: false
     xAxis:
+      minTickInterval: 24 * 3600 * 1000
       type: 'datetime'
     yAxis:
-      title: text: 'Avg Minutes to Review'
+      title: text: 'Avg Hours to Review'
     series: [{
-      name: "Avg Minutes"
+      name: "Avg Hours"
       pointInterval: 24 * 3600 * 1000
       pointStart: Date.UTC(#{@start.year}, #{@start.month-1}, #{@start.day})
       data: #{@time_to_review.to_json}
@@ -105,14 +113,15 @@
 #time_to_qa{ style: "width:100%; height:400px;" }
 :coffee
   $('#time_to_qa').highcharts(
-    title: text: 'Avg Minutes to QA'
+    title: text: 'Avg Hours to QA'
     legend: enabled: false
     xAxis:
+      minTickInterval: 24 * 3600 * 1000
       type: 'datetime'
     yAxis:
-      title: text: 'Avg Minutes to QA'
+      title: text: 'Avg Hours to QA'
     series: [{
-      name: "Avg Minutes"
+      name: "Avg Hours"
       pointInterval: 24 * 3600 * 1000
       pointStart: Date.UTC(#{@start.year}, #{@start.month-1}, #{@start.day})
       data: #{@time_to_qa.to_json}

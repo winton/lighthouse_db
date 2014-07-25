@@ -2,14 +2,15 @@ class ShippedController < ApplicationController
 
   def index
     start_end
+    states
     issues
     code_review_events
     code_review_names
     code_review_counts
     users_by_team
     qa_state_changes
-    @time_to_review = time_from_state('pending-review', 'pending-qa')
-    @time_to_qa = time_from_state('pending-qa', 'pending-approval')
+    @time_to_review = time_in_state('pending-review')
+    @time_to_qa = time_in_state('pending-qa')
   end
 
   private
@@ -28,10 +29,13 @@ class ShippedController < ApplicationController
     end
   end
 
+  def states
+    @states = LighthouseTicket.select(:state).group(:state).order(:state).all
+  end
+
   def issues
     @issues = GithubIssue.
       where("issue_updated_at > ?", @start).
-      where(state: "closed", merged: true).
       includes(:lighthouse_ticket).
       order('commits desc')
 
@@ -85,25 +89,17 @@ class ShippedController < ApplicationController
     end
   end
 
-  def time_from_state(from, to)
+  def time_in_state(state)
     (@start..@end).collect do |date|
-      events = LighthouseEvent.
-        where("DATE(happened_at) = ?", date).
-        where(event: 'state', state: [ from, to ]).
-        order(:happened_at)
-
-      count   = 0
-      seconds = 0
-      
-      events.each_with_index do |event, i|
-        next unless next_event = events[i + 1]
-        if event.state == from && next_event.state == to
-          count   += 1
-          seconds += next_event.happened_at - event.happened_at
-        end
+      issues = GithubIssue.
+        where("DATE(issue_closed_at) = ?", date).
+        includes(:lighthouse_ticket)
+      issues = issues.select { |i| i.lighthouse_ticket }
+      total = issues.inject(0) do |memo, issue|
+        time_in_state = issue.lighthouse_ticket.time_in_state(state)
+        memo + (time_in_state / 60 / 60)
       end
-
-      avg = seconds.to_f / 60 / count
+      avg = total.to_f / issues.length
       avg.nan? ? 0 : avg
     end
   end

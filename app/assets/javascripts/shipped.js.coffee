@@ -16,3 +16,15 @@ $ ->
     $("#teams input").each (i, item) ->
       $(item).prop("checked", false)
     false
+
+  state_cells  = $(".state")
+  state_inputs = $("#states input")
+
+  state_inputs.change ->
+    checked = $.makeArray state_inputs.filter(":checked").map (i, item) ->
+      $(item).val()
+    state_cells.each (i, item) ->
+      if checked.indexOf($.trim($(item).text())) > -1 || !checked.length
+        $(item).closest("tr").show()
+      else
+        $(item).closest("tr").hide()

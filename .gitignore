@@ -23,3 +23,6 @@
 
 # Teams
 config/teams.yml
+
+*.zip
+/.DS_Store

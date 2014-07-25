@@ -52,9 +52,9 @@
         %td= issue.commits
         %td= issue.file_changes
         %td= issue.merged
-        %td.state= (issue.lighthouse_ticket.state rescue '')
-        %td= distance_of_time_in_words((issue.lighthouse_ticket.time_in_review rescue 0))
-        %td= distance_of_time_in_words((issue.lighthouse_ticket.time_in_qa rescue 0))
+        %td.state.nowrap= (issue.lighthouse_ticket.state rescue '')
+        %td.nowrap= time_in_words((issue.lighthouse_ticket.time_in_review rescue 0))
+        %td.nowrap= time_in_words((issue.lighthouse_ticket.time_in_qa rescue 0))
         %td= issue.github_user.name || issue.github_user.login
 
 #code_reviews{ style: "width:100%; height:400px;" }

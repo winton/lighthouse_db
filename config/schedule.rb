@@ -27,3 +27,7 @@ set :job_template, 'export $(cat /.dockerenv | sed s/\"//g | sed "s/\,/ /g" | se
 every 1.hour do
   runner "IssuesFromApi.new(GithubUser.token_user).update", :environment => ENV["RAILS_ENV"]
 end
+
+every :weekday, :at => '10am' do
+  runner "PendingReview.notify"
+end

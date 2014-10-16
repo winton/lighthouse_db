@@ -27,7 +27,6 @@ class PendingReview
         message = "#{issue.lighthouse_ticket.milestone} - <#{issue.url}|#{issue.title_without_long_words}>"
         Slack.post(message)
         alerts_sent += 1
-        sleep(1.minutes)
       end
 
       alerts_sent

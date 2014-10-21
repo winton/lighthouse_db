@@ -28,6 +28,8 @@ every 1.hour do
   runner "IssuesFromApi.new(GithubUser.token_user).update", :environment => ENV["RAILS_ENV"]
 end
 
-every :weekday, :at => '10am' do
+every '0 12 * * 1,2,3,4,5' do
+  runner "IssuesFromApi.new(GithubUser.token_user).update"
+  runner "TicketsFromApi.new(LighthouseUser.token_user).update"
   runner "PendingReview.notify"
 end

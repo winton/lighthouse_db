@@ -24,12 +24,14 @@ set :output, "./log/cron_log.log"
 
 set :job_template, 'export $(cat /.dockerenv | sed s/\"//g | sed "s/\,/ /g" | sed \'s/\(\[\|\]\)//g\') && /bin/bash -l -c \':job\''
 
-every 1.hour do
+every 10.minutes do
   runner "IssuesFromApi.new(GithubUser.token_user).update", :environment => ENV["RAILS_ENV"]
 end
 
+every 10.minutes do
+  runner "TicketsFromApi.new(LighthouseUser.token_user).update", :environment => ENV["RAILS_ENV"]
+end
+
 every '0 10 * * 1,2,3,4,5' do
-  runner "IssuesFromApi.new(GithubUser.token_user).update"
-  runner "TicketsFromApi.new(LighthouseUser.token_user).update"
-  runner "PendingReview.notify"
+  runner "PendingReview.notify", :environment => ENV["RAILS_ENV"]
 end

@@ -18,7 +18,7 @@ class PendingReview
     end
 
     def send_alerts_for(pending_reviews)
-      urgent = "urgent-all: #{pending_reviews.length} tickets have been pending-review for more than 24 hours."
+      urgent = "#{pending_reviews.length} tickets have been pending-review for more than 24 hours."
       Slack.post(urgent)
 
       alerts_sent = 0

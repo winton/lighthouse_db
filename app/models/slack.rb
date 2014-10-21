@@ -2,8 +2,6 @@ class Slack
   class << self
     def post(message)
       payload = {
-        "username" => "pending-review",
-        "icon_emoji" => ":hammer:",
         "text" => "#{message}"
       }
 

@@ -1,5 +1,7 @@
 class PendingReview
   class << self
+    include ActionView::Helpers::TextHelper
+    
     def notify
       pending_reviews = older_than_a_day
       alerts_sent = 0
@@ -8,7 +10,7 @@ class PendingReview
 
     def older_than_a_day
       pending_reviews = GithubIssue
-        .where('issue_updated_at > ?', DateTime.now.last_week(:friday))
+        .where('issue_updated_at > ?', 2.weeks.ago)
         .joins(:lighthouse_ticket)
           .merge(LighthouseTicket
             .where(state: 'pending-review'))
@@ -18,7 +20,8 @@ class PendingReview
     end
 
     def send_alerts_for(pending_reviews)
-      urgent = "#{pending_reviews.length} tickets have been pending-review for more than 24 hours."
+      urgent = "#{pluralize(pending_reviews.length, 'ticket')} pending-review for more than 24 hours."
+
       Slack.post(urgent)
 
       alerts_sent = 0

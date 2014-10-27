@@ -15,7 +15,7 @@ class Slack
     end
 
     def token
-      config = YAML.load open File.join Rails.root, 'config', 'slack.yml'
+      config = YAML.load_file("#{Rails.root}/config/slack.yml")
       config['token']
     end
   end

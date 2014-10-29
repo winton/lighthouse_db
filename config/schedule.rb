@@ -32,6 +32,7 @@ every 5.minutes do
   runner "TicketsFromApi.new(LighthouseUser.token_user).update", :environment => ENV["RAILS_ENV"]
 end
 
-every '0 10 * * 1,2,3,4,5' do
+# EB time zone is UTC
+every '0 17 * * 1,2,3,4,5' do
   runner "PendingReview.notify", :environment => ENV["RAILS_ENV"]
 end

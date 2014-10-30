@@ -5,7 +5,7 @@ class PendingReview
     def notify
       pending_reviews = older_than_a_day
       alerts_sent = 0
-      alerts_sent = send_alerts_for(pending_reviews) if pending_reviews
+      alerts_sent = send_alerts_for(pending_reviews) if pending_reviews.length >= 1
     end
 
     def older_than_a_day
@@ -20,7 +20,7 @@ class PendingReview
     end
 
     def send_alerts_for(pending_reviews)
-      urgent = "#{pluralize(pending_reviews.length, 'ticket')} pending-review for more than 24 hours."
+      urgent = "urgent-all: #{pluralize(pending_reviews.length, 'ticket')} pending-review for more than 24 hours."
 
       Slack.post(urgent)
 
